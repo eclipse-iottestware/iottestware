@@ -1,5 +1,5 @@
 # How to contribute to IoT-Testware
-We are glad that you are interested in contributing to the IoT-Testware project. At this point we provide you with some questions you might have before you contribute. If you want to get more information about submitting and our guidlines, please read the [Contributing to IoT-Testware](GUIDELINES.md) guide.
+We are glad that you are interested in contributing to the IoT-Testware project. At this point we provide you with some questions you might have before you contribute. If you want to get more information about submitting and our guidlines, please read the [Contributing guideline to IoT-Testware](GUIDELINES.md) guide.
 
 **Did you find a bug?**
 If you find any bugs in the test code or in the test purposes, please read the following points carefully.
