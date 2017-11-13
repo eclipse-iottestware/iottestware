@@ -3,6 +3,8 @@
 Type | Description | Responsibility | Date | Priority | Status | Author
 ---- | ----------- | -------------- | ---- | -------- | ------ | ------
 proposal | create a script that translates automatically the TPs from word format to TDL-TO | - | - | 1 | open | Sascha
+wish | TDL-TO to Titan Report Template generator | - | - | 2 | open | Alex
+proposal | merge install scripts and harmonize installation process for all Test Suites | Alex | - | 1 | ongoing | Alex
 *type* | *description* | *responsibility* | *date* | *priority* | *status* | *author*
 *type* | *description* | *responsibility* | *date* | *priority* | *status* | *author*
 *type* | *description* | *responsibility* | *date* | *priority* | *status* | *author*
