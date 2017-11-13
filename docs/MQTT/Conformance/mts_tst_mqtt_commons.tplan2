@@ -1,0 +1,15 @@
+Package mts_mqtt_commons {
+	Domain {
+		pics:
+		- PIC_Broker
+		;
+		entities:
+		- IUT
+		;
+		events:
+		- receives
+		- sends
+		- closes_connection
+		;
+	}
+}
