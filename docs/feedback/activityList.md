@@ -5,7 +5,9 @@ Type | Description | Responsibility | Date | Priority | Status | Author
 proposal | create a script that translates automatically the TPs from word format to TDL-TO | - | - | 1 | open | Sascha
 wish | TDL-TO to Titan Report Template generator | - | - | 2 | open | Alex
 proposal | merge install scripts and harmonize installation process for all Test Suites | Alex | - | 1 | ongoing | Alex
-*type* | *description* | *responsibility* | *date* | *priority* | *status* | *author*
+issue | implement external interface for every test suite (e.g. pixits) | - | - | 1-2 | open | Sascha
+issue | refactoring quality check; refactor code to follow code guidelines | all | - | 1 | ongoing | Axel
+wish | review and improvement of contribution and general guidelines of the project | all | - | 3 | open | Sascha
 *type* | *description* | *responsibility* | *date* | *priority* | *status* | *author*
 *type* | *description* | *responsibility* | *date* | *priority* | *status* | *author*
 
