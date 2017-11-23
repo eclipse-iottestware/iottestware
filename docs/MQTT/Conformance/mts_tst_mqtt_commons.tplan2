@@ -5,25 +5,11 @@ Package mts_mqtt_commons {
 		;
 		entities:
 		- IUT
-		- CLIENT_ID
-		- CLIENT
-		- MQTT
-		- TCP_CONNECTION
 		;
 		events:
 		- receives
 		- sends
-		- closes
-		- having
+		- closes_connection
 		;
-	}
-	
-	Data {
-		type UTF8String;
-		type UTF8String_invalid;
-		
-		UTF8String WILL_TOPIC;
-		UTF8String WILL_MESSAGE;
-		UTF8String MQTT_USER_NAME;
 	}
 }
