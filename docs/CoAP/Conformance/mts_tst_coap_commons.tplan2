@@ -5,12 +5,14 @@ Package mts_coap_commons {
 		;
 		entities:
 		- IUT
+		- client
 		;
 		events:
 		- receives
 		- sends
 		- provides
 		- responds
+		- implement
 		;
 	}
 	 
