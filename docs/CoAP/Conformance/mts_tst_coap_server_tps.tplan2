@@ -1,9 +1,112 @@
+/******************************************************************************
+* Copyright (c) 2018  Fraunhofer FOKUS
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+*     Avdoot Chalke
+*     Sascha Hackel
+******************************************************************************/
+
 Package mts_tst_coap {
-	
+
 	import all from mts_coap_commons; 
 	
 	Test Purpose {
-		TP Id TP_OPC_UA_Server_001 /* Sect. 4.1.1.1 */
+      TP Id TP_CoAP_MessageFormat_Header_001
+      
+      Test objective
+      "The IUT is responding on a correct CoAP message header, including version number, type, token length , code and message id.
+      The version number, a 2-bit unsigned integer, is set to 1." 
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3"
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+      	when {
+      		the IUT entity receives a message containing 
+      		version indicating value 1, /* 01 in binary */
+      		msg_type indicating value 3, /* ReSeT */
+      		token_length indicating value 0,
+      		code indicating value 0.00, /* EMPTY */
+      		token indicating value 0;
+      	}
+			then {
+				the IUT entity sends a message containing 
+				msg_type indicating value 3; /* ReSeT */ 
+         }
+		} 
+	}
+	
+	Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_002
+      
+      Test objective
+      "The IUT ignores on an incorrect CoAP message header.
+      The version number, a 2-bit unsigned integer, is set to the reserved value 3." 
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3"
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a message containing 
+            version indicating value 3, 
+            msg_type indicating value 3, /* ReSeT */
+            token_length indicating value 0,
+            code indicating value 0.00, /* EMPTY */
+            token indicating value 0;
+         }
+         then {
+            the IUT entity sends no message and
+            the client entity times_out /* 2s ACK_TIMEOUT */ 
+         }
+      } 
+   }
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_003
+      
+      Test objective
+      "The IUT ignores on an incorrect CoAP message header.
+      The token length, a 4-bit unsigned integer, is set to 9 and must processed as message format error." 
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3"
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a message containing 
+            version indicating value 1, 
+            msg_type indicating value 3, /* ReSeT */
+            token_length indicating value 9, /* reserved */
+            code indicating value 0.00, /* EMPTY */
+            token indicating value 0;
+         }
+         then {
+            the IUT entity sends no message and
+            the client entity times_out /* 2s ACK_TIMEOUT */
+            // TODO: check message format error
+         }
+      } 
+   }
+	
+	Test Purpose {
+		TP Id TP_CoAP_Server_001 /* Sect. 4.1.1.1 */
 		
 		/* Summary */
  		Test objective 
