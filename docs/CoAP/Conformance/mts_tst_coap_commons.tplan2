@@ -22,7 +22,6 @@ Package mts_coap_commons {
 		- receives
 		- sends
 		- provide
-		- provides
 		- responds
 		- implement
 		- times_out

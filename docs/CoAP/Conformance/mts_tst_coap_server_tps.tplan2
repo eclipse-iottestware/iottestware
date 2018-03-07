@@ -18,8 +18,7 @@ Package mts_tst_coap {
       TP Id TP_CoAP_MessageFormat_Header_001
       
       Test objective
-      "The IUT is responding on a correct CoAP message header, including version number, type, token length , code and message id.
-      The version number, a 2-bit unsigned integer, is set to 1." 
+      "The IUT ignores a correct CoAP ReSeT message, including correct version number, type, token length , code and message id."
       
       Reference 
       "RFC7252#section-3", 
@@ -38,8 +37,7 @@ Package mts_tst_coap {
       		token indicating value 0;
       	}
 			then {
-				the IUT entity sends a message containing 
-				msg_type indicating value 3; /* ReSeT */ 
+				the client entity times_out /* 2s ACK_TIMEOUT */ 
          }
 		} 
 	}
@@ -62,13 +60,12 @@ Package mts_tst_coap {
          when {
             the IUT entity receives a message containing 
             version indicating value 3, 
-            msg_type indicating value 3, /* ReSeT */
+            msg_type indicating value 0, /* CONfirmable */
             token_length indicating value 0,
             code indicating value 0.00, /* EMPTY */
             token indicating value 0;
          }
          then {
-            the IUT entity sends no message and
             the client entity times_out /* 2s ACK_TIMEOUT */ 
          }
       } 
@@ -92,7 +89,7 @@ Package mts_tst_coap {
          when {
             the IUT entity receives a message containing 
             version indicating value 1, 
-            msg_type indicating value 3, /* ReSeT */
+            msg_type indicating value 0, /* CONfirmable */
             token_length indicating value 9, /* reserved */
             code indicating value 0.00, /* EMPTY */
             token indicating value 0;
@@ -100,7 +97,7 @@ Package mts_tst_coap {
          then {
             the IUT entity sends no message and
             the client entity times_out /* 2s ACK_TIMEOUT */
-            // TODO: check message format error
+            // TODO: may check message format error
          }
       } 
    }
@@ -110,7 +107,7 @@ Package mts_tst_coap {
 		
 		/* Summary */
  		Test objective 
- 			"The IUT is responding on a RESET message." 
+ 			"The IUT is responding on a PING message." 
  		
  		Reference 
  			"RFC7252#section4.2", 
