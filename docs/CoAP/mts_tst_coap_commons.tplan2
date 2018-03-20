@@ -1,0 +1,19 @@
+Package mts_coap_commons {
+	Domain {
+		pics:
+		- PIC_Server
+		;
+		entities:
+		- IUT
+		- client
+		;
+		events:
+		- receives
+		- sends
+		- provide
+		- responds
+		- implement
+		;
+	}
+	 
+}
