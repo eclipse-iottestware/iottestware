@@ -7,9 +7,10 @@
 *
 * Contributors:
 *     Sascha Hackel
+* 	  Marion Jost
 ******************************************************************************/
 
-Package mts_coap_commons {
+Package mts_tst_coap_commons {
 	Domain {
 		pics:
 		- PIC_Server
