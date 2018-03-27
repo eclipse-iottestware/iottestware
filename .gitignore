@@ -17,6 +17,10 @@ local.properties
 # Titan
 .TITAN_properties
 
+# TDL
+.aird
+.tdl
+
 # Logs
 *.log
 
