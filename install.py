@@ -23,11 +23,21 @@ import glob
 """  CONFIGURATION   """
 """"""""""""""""""""""""
 
-parser = argparse.ArgumentParser(description='Installing and running the CoAP testsuite. Please specify a mode.')
-parser.add_argument("-b", "--build", help="build the project and create an executable", action="store_true")
-parser.add_argument("-e", "--execute", help="after the test suite built successfully it will be executed against a SUT", action="store_true")
-parser.add_argument("-p", "--protocol", help="set a protocol you want to work with", choices=['mqtt', 'coap', 'opcua'], required=True)
+# home directory
+HOME = expanduser("~")
+
+
+parser = argparse.ArgumentParser(description='Installing and running the IoT-Testware. Please specify a mode.')
+parser.add_argument("-p", "--protocol", required=True, choices=['mqtt', 'coap', 'opcua'],
+                                        help="sets a protocol that will be cloned together with its dependencies")
+parser.add_argument("-b", "--build", required=False, action="store_true", 
+                                     help="build the project and create a Makefile")
+parser.add_argument("--path", default=HOME+"/Titan", required=False,
+                             help="specify optionally your root directory, where all dependencies will be stored")
 args = parser.parse_args()
+
+# base path for the Eclipse Titan protocol modules and test ports
+PATH_BASE=args.path
 
 # defined protocols
 IOT_TESTWARE = {
@@ -36,6 +46,7 @@ IOT_TESTWARE = {
     "opcua":"OPC_UA"
 }
 
+# modules needed by every protocol
 IOT_TESTWARE_MODULES = {
     "coap":["src/negative_testing/CoAP_EncDec.cc",
         "src/negative_testing/CoAP_Types.ttcn"],
@@ -54,14 +65,8 @@ PROTOCOL = IOT_TESTWARE[args.protocol]
 # current working directory 
 project_dir = os.getcwd()
 
-# home directory
-HOME = expanduser("~")
-
-# base path for the Eclipse Titan protocol modules and test ports
-PATH_BASE=HOME+"/Titan2"
-
 # Git flags
-GIT_QUIET="--progress" # may remove this flag for a complete Git output
+GIT_QUIET="--quiet" # may remove this flag for a complete Git output
 
 """ INSTALLATION ! Do NOT change from here ! """
 
@@ -81,6 +86,14 @@ PATH_TCC=PATH_BASE+"/Libraries/TCCUsefulFunctions_CNL113472/"
 PATH_IOTTESTWARE=PATH_BASE+"/IoT-Testware"
 PATH_TW=PATH_IOTTESTWARE+"/iottestware."+args.protocol+"/"
 
+# Git repositories
+GIT_IOTTESTWARE = 'https://github.com/eclipse/iottestware.'+args.protocol+'.git'
+GIT_SOCKET_API = 'https://github.com/eclipse/titan.TestPorts.Common_Components.Socket-API.git'
+GIT_IPL4 = 'https://github.com/eclipse/titan.TestPorts.IPL4asp.git'
+GIT_COMMON = 'https://github.com/eclipse/titan.ProtocolModules.COMMON.git'
+GIT_PROTOCOL = 'git://git.eclipse.org/gitroot/titan/titan.ProtocolModules.'+PROTOCOL+'.git'
+GIT_TCC = 'https://github.com/eclipse/titan.Libraries.TCCUsefulFunctions.git'
+
 def install(protocol):
 
     """"""""""""""""""""
@@ -98,7 +111,7 @@ def install(protocol):
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/iottestware.'+args.protocol+'.git', PATH_TW])
+        subprocess.Popen(['git', 'clone', GIT_QUIET, GIT_IOTTESTWARE, PATH_TW])
 
 
     """"""""""""""""""
@@ -116,7 +129,7 @@ def install(protocol):
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/titan.TestPorts.Common_Components.Socket-API.git', PATH_SOCKET_API]).communicate()[0]
+        subprocess.Popen(['git', 'clone', GIT_QUIET, GIT_SOCKET_API, PATH_SOCKET_API]).communicate()[0]
 
     if os.path.isdir(PATH_IPL4):
         print(PATH_IPL4 + " already exists")
@@ -130,7 +143,7 @@ def install(protocol):
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/titan.TestPorts.IPL4asp.git', PATH_IPL4]).communicate()[0]
+        subprocess.Popen(['git', 'clone', GIT_QUIET, GIT_IPL4, PATH_IPL4]).communicate()[0]
 
 
     """"""""""""""""""""""""
@@ -148,7 +161,7 @@ def install(protocol):
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/titan.ProtocolModules.COMMON.git', PATH_COMMON]).communicate()[0]
+        subprocess.Popen(['git', 'clone', GIT_QUIET, GIT_COMMON, PATH_COMMON]).communicate()[0]
 
     if os.path.isdir(PATH_PROTOCOL):
         print(PATH_PROTOCOL + " already exists")
@@ -162,7 +175,7 @@ def install(protocol):
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, 'git://git.eclipse.org/gitroot/titan/titan.ProtocolModules.'+PROTOCOL+'.git', PATH_PROTOCOL]).communicate()[0]
+        subprocess.Popen(['git', 'clone', GIT_QUIET, GIT_PROTOCOL, PATH_PROTOCOL]).communicate()[0]
 
 
     """"""""""""""""""
@@ -180,7 +193,7 @@ def install(protocol):
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/titan.Libraries.TCCUsefulFunctions.git', PATH_TCC]).communicate()[0]
+        subprocess.Popen(['git', 'clone', GIT_QUIET, GIT_TCC, PATH_TCC]).communicate()[0]
 
 
     """"""""""""""""""""""""""
@@ -228,17 +241,29 @@ def install(protocol):
     for file in src_dir:
         os.symlink(file, os.path.basename(file))
 
+
+def build():
+    bin_folder = PATH_TW+"bin"
+    # check if needed files are linked to bin folder
+    if not os.path.isdir(bin_folder):
+        print("bin folder does not exist. Please run the script again with '-b' or '--build' flag before.")
+        parser.print_help()
+        return        
+ 
+    os.chdir(bin_folder)
+
     # Create a Makefile
     os.system("ttcn3_makefilegen -f -g -m -e CoAPTest *.ttcn *.hh *.cc")
 
-# !MAY INCLUDE AN EXECUTION OPTION LATER!
-#def execute():
+    # compile and build
+    os.system("make compile")
+    os.system("make")
+    
 
 def Main():
+    install(args.protocol)
     if args.build:
-        install(args.protocol)
-    if not args.build and not args.execute:
-        parser.print_help()
+        build()
 
 if __name__ == '__main__':
     Main()
