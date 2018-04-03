@@ -58,7 +58,7 @@ project_dir = os.getcwd()
 HOME = expanduser("~")
 
 # base path for the Eclipse Titan protocol modules and test ports
-PATH_BASE=HOME+"/Titan"
+PATH_BASE=HOME+"/Titan2"
 
 # Git flags
 GIT_QUIET="--progress" # may remove this flag for a complete Git output
@@ -67,7 +67,6 @@ GIT_QUIET="--progress" # may remove this flag for a complete Git output
 
 # These are prescribed in the *.tpd file
 # TestPorts
-PATH_CORE=PATH_BASE+"/Core"
 PATH_SOCKET_API=PATH_BASE+"/TestPorts/Common_Components/Socket_API_CNL113686/"
 PATH_IPL4=PATH_BASE+"/TestPorts/IPL4asp/"
 
@@ -83,23 +82,6 @@ PATH_IOTTESTWARE=PATH_BASE+"/IoT-Testware"
 PATH_TW=PATH_IOTTESTWARE+"/iottestware."+args.protocol+"/"
 
 def install(protocol):
-
-    """"""""""""""""""
-    """ TITAN CORE """
-    """"""""""""""""""
-    if os.path.isdir(PATH_CORE):
-        print(PATH_CORE + " already exists")
-        os.chdir(PATH_CORE)
-
-        # ensure latest Titan version
-        subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, 'master']).communicate()[0]
-        subprocess.Popen(['git', 'pull', GIT_QUIET]).communicate()[0]
-
-        # back to cwd
-        os.chdir(project_dir)
-    else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/titan.core.git', PATH_CORE])
 
     """"""""""""""""""""
     """ IOT-TESTWARE """
@@ -134,7 +116,7 @@ def install(protocol):
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/titan.TestPorts.Common_Components.Socket-API.git', PATH_SOCKET_API]).communicate[0]
+        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/titan.TestPorts.Common_Components.Socket-API.git', PATH_SOCKET_API]).communicate()[0]
 
     if os.path.isdir(PATH_IPL4):
         print(PATH_IPL4 + " already exists")
@@ -148,7 +130,7 @@ def install(protocol):
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/titan.TestPorts.IPL4asp.git', PATH_IPL4]).communicate[0]
+        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/titan.TestPorts.IPL4asp.git', PATH_IPL4]).communicate()[0]
 
 
     """"""""""""""""""""""""
@@ -166,7 +148,7 @@ def install(protocol):
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/ProtocolModules.COMMON.git', PATH_COMMON]).communicate[0]
+        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/titan.ProtocolModules.COMMON.git', PATH_COMMON]).communicate()[0]
 
     if os.path.isdir(PATH_PROTOCOL):
         print(PATH_PROTOCOL + " already exists")
@@ -180,7 +162,7 @@ def install(protocol):
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/ProtocolModules.'+PROTOCOL+'.git', PATH_PROTOCOL]).communicate[0]
+        subprocess.Popen(['git', 'clone', GIT_QUIET, 'git://git.eclipse.org/gitroot/titan/titan.ProtocolModules.'+PROTOCOL+'.git', PATH_PROTOCOL]).communicate()[0]
 
 
     """"""""""""""""""
@@ -198,7 +180,7 @@ def install(protocol):
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/titan.Libraries.TCCUsefulFunctions.git', PATH_TCC]).communicate[0]
+        subprocess.Popen(['git', 'clone', GIT_QUIET, 'https://github.com/eclipse/titan.Libraries.TCCUsefulFunctions.git', PATH_TCC]).communicate()[0]
 
 
     """"""""""""""""""""""""""
