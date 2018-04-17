@@ -8,11 +8,12 @@
 * Contributors:
 *     Avdoot Chalke
 *     Sascha Hackel
+*     Marion Jost
 ******************************************************************************/
 
 Package mts_tst_coap {
 
-   import all from mts_coap_commons; 
+   import all from mts_tst_coap_commons; 
    
    Test Purpose {
       TP Id TP_CoAP_MessageFormat_Header_001
@@ -1072,4 +1073,438 @@ Package mts_tst_coap {
          } 
       }
    }  
+   
+   Test Purpose {
+		TP Id TP_CoAP_Options_Coap_Uri /* Sect. 5.10.1. */
+		
+		/* Summary */
+ 		Test objective 
+ 			"The Uri-Host Option specifies the Internet host of the resource
+      being requested"  
+ 		
+ 		Reference 
+ 			"RFC7252#section5.10", 
+ 			"https://tools.ietf.org/html/rfc7252#section-5.10"
+ 			
+ 		PICS Selection PIC_Server
+
+        Initial conditions
+        with 
+        {
+        	the IUT entity must provide a resource named coap_URI
+        }
+        
+ 		Expected behaviour
+		ensure that {
+			when {
+				the IUT entity receives a message containing 
+				msg_option indicating value 0, /* CONfirmable */
+				code indicating value 0.01,
+				host indicating value "IP Literal", /*default eg. [2001:db8::2:1] */
+				port indicating value "destination UDP port"; /*default eg. 5683 */
+			    }
+			then {
+				the IUT entity sends the message containing 
+				msg_type indicating value 2, /* ACknowledgement */ 
+				code indicating value 2.05,
+				content indicating value coap_URI;
+                }
+		    } 
+	    }
+		    
+	Test Purpose {
+		TP Id TP_CoAP_Options_Uri_Host /* Sect. 5.10.1. */
+		
+		/* Summary */
+ 		Test objective 
+ 			"The Uri-Host Option specifies the Internet host of the resource
+      being requested"  
+ 		
+ 		Reference 
+ 			"RFC7252#section5.10", 
+ 			"https://tools.ietf.org/html/rfc7252#section-5.10"
+ 			
+ 		PICS Selection PIC_Server
+
+        Initial conditions
+        with 
+        {
+        	the IUT entity must provide a resource named coap_URI
+        }
+        
+ 		Expected behaviour
+		ensure that {
+			when {
+				the IUT entity receives a message containing 
+				msg_option indicating value 0, /* CONfirmable */
+				code indicating value 0.01,
+				host indicating value "IP Literal", /*default eg. [2001:db8::2:1] */
+				port indicating value "destination UDP port", /*default eg. 5683 */
+				option_delta indicating value 3, /*URI-Host */
+				option_value indicating value "example.net";
+				
+			    }
+			then {
+				the IUT entity sends the message containing 
+				msg_type indicating value 2, /* ACknowledgement */ 
+				code indicating value 2.05,
+				content indicating value coap_URI;
+                }
+		    } 
+		}
+		
+	Test Purpose {
+		TP Id TP_CoAP_Options_Uri_Path /* Sect. 5.10.1. */
+		
+		/* Summary */
+ 		Test objective 
+ 			"The Uri-Path Option specifies one segment of the absolute path to
+      the resource"  
+ 		
+ 		Reference 
+ 			"RFC7252#section5.10", 
+ 			"https://tools.ietf.org/html/rfc7252#section-5.10"
+ 			
+ 		PICS Selection PIC_Server
+
+        Initial conditions
+        with 
+        {
+        	the IUT entity must provide a resource named coap_URI
+        }
+        
+ 		Expected behaviour
+		ensure that {
+			when {
+				the IUT entity receives a message containing 
+				msg_option indicating value 0, /* CONfirmable */
+				code indicating value 0.01,
+				host indicating value "IP Literal", /*default eg. [2001:db8::2:1] */
+				port indicating value "destination UDP port", /*default eg. 5683 */
+				option_delta indicating value 3, /*URI-Host */
+				option_value indicating value "example.net",
+				option_delta indicating value 8, /*URI-Path */
+				option_value indicating value ".well-known",
+				option_delta indicating value 3, /*URI-Path */
+				option_value indicating value "core";
+			    }
+			then {
+				the IUT entity sends the message containing 
+				msg_type indicating value 2, /* ACknowledgement */ 
+				code indicating value 2.05,
+				content indicating value coap_URI;
+                }
+		    } 
+	    }
+	
+	Test Purpose {
+		TP Id TP_CoAP_Options_Uri_Query /* Sect. 5.10.1. */
+		
+		/* Summary */
+ 		Test objective 
+ 			"The Uri-Query Option specifies one argument parameterizing the
+      resource"  
+ 		
+ 		Reference 
+ 			"RFC7252#section5.10", 
+ 			"https://tools.ietf.org/html/rfc7252#section-5.10"
+ 			
+ 		PICS Selection PIC_Server
+
+        Initial conditions
+        with 
+        {
+        	the IUT entity must provide a resource named coap_URI
+        }
+        
+ 		Expected behaviour
+		ensure that {
+			when {
+				the IUT entity receives a message containing 
+				msg_option indicating value 0, /* CONfirmable */
+				code indicating value 0.01,
+				host indicating value "IP Literal", /*default eg. [2001:db8::2:1] */
+				port indicating value "destination UDP port", /*default eg. 5683 */
+				option_delta indicating value 11, /*URI-Path */
+				option_value indicating value "",
+				option_delta indicating value 0, /*URI-Path */
+				option_value indicating value "/",
+				option_delta indicating value 11, /*URI-Path */
+				option_value indicating value "",
+				option_delta indicating value 0, /*URI-Path */
+				option_value indicating value "",
+				option_delta indicating value 15, /*URI-Query */
+				option_value indicating value "//",
+				option_delta indicating value 0, /*URI-Query */
+				option_value indicating value "?&";
+			    }
+			then {
+				the IUT entity sends the message containing 
+				msg_type indicating value 2, /* ACknowledgement */ 
+				code indicating value 2.05,
+				content indicating value coap_URI;
+                }
+		    } 
+	    }
+
+	Test Purpose {
+		TP Id TP_CoAP_Options_Proxy_Uri /* Sect. 5.10.2. */
+		
+		/* Summary */
+ 		Test objective 
+ 			"The Proxy-Uri Option is used to make a request to a forward-proxy"  
+ 		
+ 		Reference 
+ 			"RFC7252#section5.10", 
+ 			"https://tools.ietf.org/html/rfc7252#section-5.10"
+ 			
+ 		PICS Selection PIC_Server
+
+        Initial conditions
+        with 
+        {
+        	the IUT entity must provide a resource named coap_URI
+        }
+        
+ 		Expected behaviour
+		ensure that {
+			when {
+				the IUT entity receives a message containing 
+				msg_option indicating value 0, /* CONfirmable */
+				code indicating value 0.01,
+				proxy_uri indicating value "sample_proxy_uri";
+			    }
+			then {
+				the IUT entity sends the message containing 
+				msg_type indicating value 2, /* ACknowledgement */ 
+				code indicating value 2.05;        
+				}
+		    } 
+	    }
+	    
+    Test Purpose {
+		TP Id TP_CoAP_Options_Proxy_Uri_Fail /* Sect. 5.10.2. */
+		
+		/* Summary */
+ 		Test objective 
+ 			"The Proxy-Uri Option MUST take precedence over any of the Uri-Host,
+   Uri-Port, Uri-Path or Uri-Query options"  
+ 		
+ 		Reference 
+ 			"RFC7252#section5.10", 
+ 			"https://tools.ietf.org/html/rfc7252#section-5.10"
+ 			
+ 		PICS Selection PIC_Server
+
+        Initial conditions
+        with 
+        {
+        	the IUT entity must provide a resource named coap_URI
+        }
+        
+ 		Expected behaviour
+		ensure that {
+			when {
+				the IUT entity receives a message containing 
+				msg_option indicating value 0, /* CONfirmable */
+				code indicating value 0.01,
+				proxy_uri indicating value "sample_proxy_uri",
+				uri_host indicating value "sample_uri";
+			    }
+			then {
+				the IUT entity sends the message containing 
+				msg_type indicating value 2, /* ACknowledgement */ 
+				code indicating value 4.05;             
+			   }
+		    } 
+	    }
+
+   Test Purpose {
+		TP Id TP_CoAP_Options_Content_Format /* Sect. 5.10.3. */
+		
+		/* Summary */
+ 		Test objective 
+ 			"The Content-Format Option indicates the representation format of the
+   message payload"  
+ 		
+ 		Reference 
+ 			"RFC7252#section5.10", 
+ 			"https://tools.ietf.org/html/rfc7252#section-5.10"
+ 			
+ 		PICS Selection PIC_Server
+
+        Initial conditions
+        with 
+        {
+        	the IUT entity must provide a resource named coap_URI
+        }
+        
+ 		Expected behaviour
+		ensure that {
+			when {
+				the IUT entity receives a message containing 
+				msg_option indicating value 0, /* CONfirmable */
+				code indicating value 0.01,
+				content_format indicating value content_formats_id,
+				payload indicating value 116 145 167 061 057 116 145 167 062;
+			    }
+			then {
+				the IUT entity sends the message containing 
+				msg_type indicating value 2, /* ACknowledgement */ 
+				code indicating value 2.03;             
+			   }
+		    } 
+	    }
+
+   Test Purpose {
+		TP Id TP_CoAP_Options_Content_Format_Fail /* Sect. 5.10.3. */
+		
+		/* Summary */
+ 		Test objective 
+ 			"The Content-Format Option indicates the representation format of the
+   message payload, in the absence of the option, no
+   default value is assumed, i.e., the representation format of any
+   representation message payload is indeterminate"  
+ 		
+ 		Reference 
+ 			"RFC7252#section5.10", 
+ 			"https://tools.ietf.org/html/rfc7252#section-5.10"
+ 			
+ 		PICS Selection PIC_Server
+
+        Initial conditions
+        with 
+        {
+        	the IUT entity must provide a resource named coap_URI
+        }
+        
+ 		Expected behaviour
+		ensure that {
+			when {
+				the IUT entity receives a message containing 
+				msg_option indicating value 0, /* CONfirmable */
+				code indicating value 0.01,
+				payload indicating value 116 145 167 061 057 116 145 167 062;
+			    }
+			then {
+				the IUT entity sends the message containing 
+				msg_type indicating value 2, /* ACknowledgement */ 
+				code indicating value 4.06;             
+			   }
+		    } 
+	    }
+
+   Test Purpose {
+		TP Id TP_CoAP_Options_Content_Accept /* Sect. 5.10.4. */
+		
+		/* Summary */
+ 		Test objective 
+ 			"The CoAP Accept option can be used to indicate which Content-Format
+   is acceptable to the client"  
+ 		
+ 		Reference 
+ 			"RFC7252#section5.10", 
+ 			"https://tools.ietf.org/html/rfc7252#section-5.10"
+ 			
+ 		PICS Selection PIC_Server
+
+        Initial conditions
+        with 
+        {
+        	the IUT entity must provide a resource named coap_URI
+        }
+        
+ 		Expected behaviour
+		ensure that {
+			when {
+				the IUT entity receives a message containing 
+				msg_option indicating value 0, /* CONfirmable */
+				code indicating value 0.01,
+				content_format indicating value content_formats_id,
+				accept indicating value content_formats_id;
+			    }
+			then {
+				the IUT entity sends the message containing 
+				msg_type indicating value 2, /* ACknowledgement */ 
+				code indicating value 2.03;             
+			   }
+		    } 
+	    }
+	    
+   Test Purpose {
+		TP Id TP_CoAP_Options_Content_Accept_Fail /* Sect. 5.10.4. */
+		
+		/* Summary */
+ 		Test objective 
+ 			"The CoAP Accept option can be used to indicate which Content-Format
+   is acceptable to the client, If the preferred Content-
+   Format cannot be returned, then a 4.06 MUST be sent
+   as a response, unless another error code takes precedence for this
+   response."  
+ 		
+ 		Reference 
+ 			"RFC7252#section5.10", 
+ 			"https://tools.ietf.org/html/rfc7252#section-5.10"
+ 			
+ 		PICS Selection PIC_Server
+
+        Initial conditions
+        with 
+        {
+        	the IUT entity must provide a resource named coap_URI
+        }
+        
+ 		Expected behaviour
+		ensure that {
+			when {
+				the IUT entity receives a message containing 
+				msg_option indicating value 0, /* CONfirmable */
+				code indicating value 0.01,
+				content_format indicating value content_formats_id,
+				accept indicating value content_formats_id;
+			    }
+			then {
+				the IUT entity sends the message containing 
+				msg_type indicating value 2, /* ACknowledgement */ 
+				code indicating value 4.06;             
+			   }
+		    } 
+	    }
+
+   Test Purpose {
+		TP Id TP_CoAP_Options_Max_Age /* Sect. 5.10.4. */
+		
+		/* Summary */
+ 		Test objective 
+ 			"The Max-Age Option indicates the maximum time a response may be
+   cached before it is considered not fresh"  
+ 		
+ 		Reference 
+ 			"RFC7252#section5.10", 
+ 			"https://tools.ietf.org/html/rfc7252#section-5.10"
+ 			
+ 		PICS Selection PIC_Server
+
+        Initial conditions
+        with 
+        {
+        	the IUT entity must provide a resonse
+        }
+        
+ 		Expected behaviour
+		ensure that {
+			when {
+				the IUT entity receives a message containing 
+				msg_option indicating value 0, /* CONfirmable */
+				code indicating value 0.01,
+				content_format indicating value content_formats_id,
+				accept indicating value content_formats_id;
+			    }
+			then {
+				the IUT entity sends the message containing 
+				msg_type indicating value 2, /* ACknowledgement */ 
+				code indicating value 4.06;             
+			   }
+		    } 
+	    }
 }
