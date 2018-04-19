@@ -30,10 +30,14 @@ HOME = expanduser("~")
 parser = argparse.ArgumentParser(description='Installing and running the IoT-Testware. Please specify a mode.')
 parser.add_argument("-p", "--protocol", required=True, choices=['mqtt', 'coap', 'opcua'],
                                         help="sets a protocol that will be cloned together with its dependencies")
-parser.add_argument("-b", "--build", required=False, action="store_true", 
+parser.add_argument("-b", "--build", required=False, action="store_true",
                                      help="build the project and create a Makefile")
 parser.add_argument("--path", default=HOME+"/Titan", required=False,
-                             help="specify optionally your root directory, where all dependencies will be stored")
+                              help="specify optionally your root directory, where all dependencies will be stored")
+parser.add_argument("-e", "--executable_name", required=False, nargs=1,
+                                               help="set the name of the executable that will be generated")
+parser.add_argument("-v", "--verbose", required=False, action="store_true",
+                                       help="progress status output is verbose")
 args = parser.parse_args()
 
 # base path for the Eclipse Titan protocol modules and test ports
@@ -59,14 +63,31 @@ IOT_TESTWARE_MODULES = {
         "src/OpcUA_Types_Binary.ttcn"]
 }
 
+# version number of needed module
+GIT_PROTOCOL_VERSION = {
+    "coap":"8e47e5abb89b88fcbe0d42f6372d940e495fdb62",
+    "mqtt":"c22560bb461c21cb1835f19721e990eb57691bad",
+    "opcua":"f13b46d1c9c8448fee8e034c086d6fd3caedbd3b"
+}
+
 # current protocol
 PROTOCOL = IOT_TESTWARE[args.protocol]
+
+# default executable name
+NAME_EXE = "iottestware_"+PROTOCOL
+if args.executable_name!=None:
+    NAME_EXE = args.executable_name[0]
+print(NAME_EXE)
 
 # current working directory 
 project_dir = os.getcwd()
 
 # Git flags
-GIT_QUIET="--quiet" # may remove this flag for a complete Git output
+GIT_QUIET="--quiet"
+if args.verbose:
+    GIT_FLAG="--verbose"
+else:
+    GIT_FLAG=GIT_QUIET
 
 """ INSTALLATION ! Do NOT change from here ! """
 
@@ -78,8 +99,6 @@ PATH_IPL4=PATH_BASE+"/TestPorts/IPL4asp/"
 # ProtocolModules
 PATH_COMMON=PATH_BASE+"/ProtocolModules/COMMON/"
 PATH_PROTOCOL=PATH_BASE+"/ProtocolModules/"+PROTOCOL+"/"
-# ... more protocols might follow
-
 
 # Libraries
 PATH_TCC=PATH_BASE+"/Libraries/TCCUsefulFunctions_CNL113472/"
@@ -89,10 +108,14 @@ PATH_TW=PATH_IOTTESTWARE+"/iottestware."+args.protocol+"/"
 # Git repositories
 GIT_IOTTESTWARE = 'https://github.com/eclipse/iottestware.'+args.protocol+'.git'
 GIT_SOCKET_API = 'https://github.com/eclipse/titan.TestPorts.Common_Components.Socket-API.git'
+GIT_SOCKET_API_VERSION = '9e4ac13486f084e6eca74b976daf21b0028c44c1'
 GIT_IPL4 = 'https://github.com/eclipse/titan.TestPorts.IPL4asp.git'
+GIT_IPL4_VERSION = '8045145aa32cd4452f1acc30ade0a6ea79033bcc'
 GIT_COMMON = 'https://github.com/eclipse/titan.ProtocolModules.COMMON.git'
+GIT_COMMON_VERSION = '9a52b8dc609e18c193fbe4619aeb52d6c94e7922'
 GIT_PROTOCOL = 'git://git.eclipse.org/gitroot/titan/titan.ProtocolModules.'+PROTOCOL+'.git'
 GIT_TCC = 'https://github.com/eclipse/titan.Libraries.TCCUsefulFunctions.git'
+GIT_TCC_VERSION = '27f76bb794af89f5ed9088317fc2e82247667f74'
 
 def install(protocol):
 
@@ -106,13 +129,15 @@ def install(protocol):
         # ensure latest Titan version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
         subprocess.Popen(['git', 'checkout', GIT_QUIET, 'master']).communicate()[0]
-        subprocess.Popen(['git', 'pull', GIT_QUIET]).communicate()[0]
+        subprocess.Popen(['git', 'pull', GIT_FLAG]).communicate()[0]
 
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, GIT_IOTTESTWARE, PATH_TW])
+        # print sth ...
+        subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_IOTTESTWARE, PATH_TW])
 
+    print(" IoT-Testware ... done!")
 
     """"""""""""""""""
     """ TEST PORTS """
@@ -123,13 +148,13 @@ def install(protocol):
 
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, 'master']).communicate()[0]
-        subprocess.Popen(['git', 'pull', GIT_QUIET]).communicate()[0]
+        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_SOCKET_API_VERSION]).communicate()[0]
 
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, GIT_SOCKET_API, PATH_SOCKET_API]).communicate()[0]
+        subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_SOCKET_API, PATH_SOCKET_API]).communicate()[0]
+        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_SOCKET_API_VERSION]).communicate()[0]
 
     if os.path.isdir(PATH_IPL4):
         print(PATH_IPL4 + " already exists")
@@ -137,14 +162,15 @@ def install(protocol):
 
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, 'master']).communicate()[0]
-        subprocess.Popen(['git', 'pull', GIT_QUIET]).communicate()[0]
+        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_IPL4_VERSION]).communicate()[0]
 
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, GIT_IPL4, PATH_IPL4]).communicate()[0]
+        subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_IPL4, PATH_IPL4]).communicate()[0]
+        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_IPL4_VERSION]).communicate()[0]
 
+    print(" Test ports ... done!")
 
     """"""""""""""""""""""""
     """ PROTOCOL MODULES """
@@ -155,13 +181,13 @@ def install(protocol):
 
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, 'master']).communicate()[0]
-        subprocess.Popen(['git', 'pull', GIT_QUIET]).communicate()[0]
+        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_COMMON_VERSION]).communicate()[0]
 
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, GIT_COMMON, PATH_COMMON]).communicate()[0]
+        subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_COMMON, PATH_COMMON]).communicate()[0]
+        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_COMMON_VERSION]).communicate()[0]
 
     if os.path.isdir(PATH_PROTOCOL):
         print(PATH_PROTOCOL + " already exists")
@@ -169,14 +195,15 @@ def install(protocol):
 
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, 'master']).communicate()[0]
-        subprocess.Popen(['git', 'pull', GIT_QUIET]).communicate()[0]
+        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_PROTOCOL_VERSION[args.protocol]]).communicate()[0]
 
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, GIT_PROTOCOL, PATH_PROTOCOL]).communicate()[0]
+        subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_PROTOCOL, PATH_PROTOCOL]).communicate()[0]
+        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_PROTOCOL_VERSION[args.protocol]]).communicate()[0]
 
+    print(" Protocol modules ... done!")
 
     """"""""""""""""""
     """ LIBRARIES  """
@@ -187,18 +214,22 @@ def install(protocol):
 
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, 'master']).communicate()[0]
-        subprocess.Popen(['git', 'pull', GIT_QUIET]).communicate()[0]
+        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_TCC_VERSION]).communicate()[0]
 
         # back to cwd
         os.chdir(project_dir)
     else:
-        subprocess.Popen(['git', 'clone', GIT_QUIET, GIT_TCC, PATH_TCC]).communicate()[0]
+        subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_TCC, PATH_TCC]).communicate()[0]
+        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_TCC_VERSION]).communicate()[0]
 
+    print(" Libraries ... done!")
+    print("Getting Dependencies done!")
 
     """"""""""""""""""""""""""
     """ PREPARE WORKSPACE  """
     """"""""""""""""""""""""""
+    print("Preparing workspace ...")
+
     # clean the bin directory
     bin_folder = PATH_TW+"bin"
     if os.path.isdir(bin_folder):
@@ -208,6 +239,7 @@ def install(protocol):
     else:
         os.mkdir(bin_folder)
     os.chdir(bin_folder)
+    print(" Bin directory clean!")
 
     # Create symlinks inside the bin folder to create a Makefile in the next step
     os.symlink(PATH_COMMON + "/src/General_Types.ttcn", "General_Types.ttcn")	
@@ -241,6 +273,9 @@ def install(protocol):
     for file in src_dir:
         os.symlink(file, os.path.basename(file))
 
+    print(" Symlinks created successfully!")
+    print("Finished! Everything set up.")
+
 
 def build():
     bin_folder = PATH_TW+"bin"
@@ -253,16 +288,21 @@ def build():
     os.chdir(bin_folder)
 
     # Create a Makefile
-    os.system("ttcn3_makefilegen -f -g -m -e CoAPTest *.ttcn *.hh *.cc")
+    os.system("ttcn3_makefilegen -f -g -m -e "+NAME_EXE+" *.ttcn *.hh *.cc")
+    print("Makefile generated!")
 
     # compile and build
     os.system("make compile")
     os.system("make")
+    print("Compilation done!")
+    print("Building the project done!")
     
 
 def Main():
+    print("Getting dependencies ...")
     install(args.protocol)
     if args.build:
+        print("Building the project ...")
         build()
 
 if __name__ == '__main__':
