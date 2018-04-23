@@ -4,7 +4,7 @@ The Eclipse IoT-Testware project provides testware for the IoT. In addition to t
 
 ## Getting Started
 
-These instructions will get you a clean IoT-Testware clone up and running on your local machine for development and testing purposes. [//]: # (See deployment for notes on how to deploy the project on a live system.)
+These instructions will get you a clean IoT-Testware clone up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -14,7 +14,7 @@ These instructions will get you a clean IoT-Testware clone up and running on you
 
 ### Installing Quickstart
 
-_Note:_ Make sure all prerequisites are met. As we use Eclipse Titan (natively running under Linux) to compile and execute our test suite, the following instruction won't cover other OS like Windows or MacOS. We recommend installing a Linux derivate in a virtual machine. [//]: # (The easiest way is to deploy the whole test system with Docker.)
+_Note:_ Make sure all prerequisites are met. As we use Eclipse Titan (natively running under Linux) to compile and execute our test suite, the following instruction won't cover other OS like Windows or MacOS. We recommend installing a Linux derivate in a virtual machine.
 
 #### Set up
 
