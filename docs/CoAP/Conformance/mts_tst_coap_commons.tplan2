@@ -9,7 +9,7 @@
 *     Sascha Hackel
 ******************************************************************************/
 
-Package mts_coap_commons {
+Package mts_tst_coap_commons {
 	Domain {
 		pics:
 		- PIC_Server
@@ -26,6 +26,23 @@ Package mts_coap_commons {
 		- implement
 		- times_out
 		;
+	}
+	Data {
+		type STRING;
+		/* 
+		 * Data representing module parameter.
+		 * Will be set appropriately for every SUT.
+		 */
+		STRING DEFAULT_RESOURCE;
+		STRING NEW_RESOURCE;
+		STRING STORAGE_RESOURCE;
+		STRING SECOND_LVL_RESOURCE;
+		STRING SEPARATE_RESOURCE;
+		STRING THIRD_LVL_RESOURCE;
+		STRING DEFAULT_HOST;
+		STRING DEFAULT_PORT;
+		STRING PROXY_URI;
+		STRING URI_HOST;
 	}
 	 
 }

@@ -11,9 +11,9 @@
 *     Marion Jost
 ******************************************************************************/
 
-Package mts_tst_coap {
-
-   import all from mts_coap_commons; 
+Package mts_tst_coap_server_tps {
+	
+   import all from mts_tst_coap_commons;
    
    Test Purpose {
       TP Id TP_CoAP_MessageFormat_Header_001
@@ -154,7 +154,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.01,
-            uri_path indicating value "Simple_Resource";
+            uri_path corresponding to DEFAULT_RESOURCE;
          }
          then {
             the IUT entity sends the message containing 
@@ -189,8 +189,8 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.01,
-            uri_path indicating value "Simple_Resource",
-            uri_path indicating value "New_Resource";
+            uri_path corresponding to DEFAULT_RESOURCE,
+            uri_path corresponding to NEW_RESOURCE;
          }
          then {
             the IUT entity sends the message containing 
@@ -224,7 +224,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.01,
-            uri_path indicating value "Simple_Resource";
+            uri_path corresponding to DEFAULT_RESOURCE;
          }
          then {
             the IUT entity sends the message containing 
@@ -258,7 +258,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.01,
-            uri_path indicating value "Simple_Resource";
+            uri_path corresponding to DEFAULT_RESOURCE;
          }
          then {
             the IUT entity sends the message containing 
@@ -292,15 +292,15 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.02,
-            uri_path indicating value "Storage_Resource",
+            uri_path corresponding to STORAGE_RESOURCE,
             payload indicating value 116 145 167 061 057 116 145 167 062;
          }
          then {
             the IUT entity sends the message containing 
             msg_type indicating value 2, /* ACknowledgement */ 
             code indicating value 2.01,
-            LocationPath indicating value "New1",
-            LocationPath indicating value "New2";
+            LocationPath corresponding to SECOND_LVL_RESOURCE,
+            LocationPath corresponding to THIRD_LVL_RESOURCE;
          }
       } 
    }
@@ -329,17 +329,17 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.02,
-            uri_path indicating value "Storage_Resource",
-            uri_path indicating value "New1",
-            uri_path indicating value "New2",
+            uri_path corresponding to STORAGE_RESOURCE,
+            uri_path corresponding to SECOND_LVL_RESOURCE,
+            uri_path corresponding to THIRD_LVL_RESOURCE,
             payload indicating value 116 145 167 061 057 116 145 167 062;
          }
          then {
             the IUT entity sends the message containing 
             msg_type indicating value 2, /* ACknowledgement */ 
             code indicating value 2.04,
-            LocationPath indicating value "New1",
-            LocationPath indicating value "New2";
+            LocationPath corresponding to SECOND_LVL_RESOURCE,
+            LocationPath corresponding to THIRD_LVL_RESOURCE;
          }
       } 
    }
@@ -368,17 +368,17 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.02,
-            uri_path indicating value "Storage_Resource",
-            uri_path indicating value "New1",
-            uri_path indicating value "New1a",
+            uri_path corresponding to STORAGE_RESOURCE,
+            uri_path corresponding to SECOND_LVL_RESOURCE,
+            uri_path corresponding to NEW_RESOURCE,
             payload indicating value 116 145 167 061 057 116 145 167 062;
          }
          then {
             the IUT entity sends the message containing 
             msg_type indicating value 2, /* ACknowledgement */ 
             code indicating value 2.04,
-            LocationPath indicating value "New1",
-            LocationPath indicating value "New1a";
+            LocationPath corresponding to SECOND_LVL_RESOURCE,
+            LocationPath corresponding to NEW_RESOURCE;
          }
       } 
    }
@@ -407,7 +407,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.02,
-            uri_path indicating value "Simple_Resource";
+            uri_path corresponding to DEFAULT_RESOURCE;
          }
          then {
             the IUT entity sends the message containing 
@@ -441,14 +441,14 @@ Package mts_tst_coap {
             the IUT entity receives a message containing
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.03,
-            uri_path indicating value "Storage_Resource",
+            uri_path corresponding to STORAGE_RESOURCE,
             payload indicating value 116 145 167 061 057 116 145 167 062;
          }
          then {
             the IUT entity sends the message containing
             msg_type indicating value 2, /* ACknowledgement */ 
             code indicating value 2.01,
-            LocationPath indicating value "New1";
+            LocationPath corresponding to SECOND_LVL_RESOURCE;
          }
       } 
    }
@@ -477,14 +477,14 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.03,
-            uri_path indicating value "Storage_Resource",
-            uri_path indicating value "New1";
+            uri_path corresponding to STORAGE_RESOURCE,
+            uri_path corresponding to SECOND_LVL_RESOURCE;
          }
          then {
             the IUT entity sends the message containing 
             msg_type indicating value 2, /* ACknowledgement */ 
             code indicating value 2.04,
-            LocationPath indicating value "New1"; /*Try to add resource New1 although it already exists. */
+            LocationPath corresponding to SECOND_LVL_RESOURCE; /*Try to add resource New1 although it already exists. */
          }
       } 
    }
@@ -513,7 +513,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.04,
-            uri_path indicating value "Storage_Resource";
+            uri_path corresponding to STORAGE_RESOURCE;
          }
          then {
             the IUT entity sends the message containing
@@ -547,7 +547,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.04,
-            uri_path indicating value "Storage_Resource";
+            uri_path corresponding to STORAGE_RESOURCE;
          }
          then {
             the IUT entity sends the message containing 
@@ -581,7 +581,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 1, /* NON-confirmable */
             code indicating value 0.01,
-            uri_path indicating value "Simple_Resource";
+            uri_path corresponding to DEFAULT_RESOURCE;
          }
          then {
             the IUT entity sends the message containing 
@@ -615,15 +615,15 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 1, /* NON-confirmable */
             code indicating value 0.02,
-            uri_path indicating value "Storage_Resource",
+            uri_path corresponding to STORAGE_RESOURCE,
             payload indicating value 116 145 167 061 057 116 145 167 062;
          }
          then {
             the IUT entity sends the message containing 
             msg_type indicating value 1, /* NON-confirmable */ 
             code indicating value 2.01,
-            LocationPath indicating value "New1",
-            LocationPath indicating value "New2";
+            LocationPath corresponding to SECOND_LVL_RESOURCE,
+            LocationPath corresponding to THIRD_LVL_RESOURCE;
          }
       }
    }
@@ -652,14 +652,14 @@ Package mts_tst_coap {
             the IUT entity receives a message containing
             msg_type indicating value 1, /* NON-confirmable */
             code indicating value 0.03,
-            uri_path indicating value "Storage_Resource",
+            uri_path corresponding to STORAGE_RESOURCE,
             payload indicating value 116 145 167 061 057 116 145 167 062;
          }
          then {
             the IUT entity sends the message containing
             msg_type indicating value 1, /* NON-confirmable */ 
             code indicating value 2.01,
-            LocationPath indicating value "New1";
+            LocationPath corresponding to SECOND_LVL_RESOURCE;
          }
       }
    }
@@ -688,7 +688,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing
             msg_type indicating value 1, /* NON-confirmable */
             code indicating value 0.04,
-            uri_path indicating value "Storage_Resource";
+            uri_path corresponding to STORAGE_RESOURCE;
          }
          then {
             the IUT entity sends the message containing
@@ -722,7 +722,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.01,
-            uri_path indicating value "separate";
+            uri_path corresponding to SEPARATE_RESOURCE;
          }
          then {
             
@@ -762,7 +762,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.02,
-            uri_path indicating value "separate",
+            uri_path corresponding to SEPARATE_RESOURCE,
             payload indicating value 116 145 167 061 057 116 145 167 062;
          }
          then {
@@ -803,9 +803,9 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.02,
-            uri_path indicating value "separate",
-            uri_path indicating value "new1",
-            uri_path indicating value "new2",
+            uri_path corresponding to SEPARATE_RESOURCE,
+            uri_path corresponding to SECOND_LVL_RESOURCE,
+            uri_path corresponding to THIRD_LVL_RESOURCE,
             payload indicating value 116 145 167 061 057 116 145 167 062;
          }
          then {
@@ -814,8 +814,8 @@ Package mts_tst_coap {
             the IUT entity sends the second message containing 
             msg_type indicating value 0.00, /* Confirmable */ 
             code indicating value 2.04,
-            Location_Path indicating value "new1",
-            Location_Path indicating value "new2"; /*Try to add two new resources named New1 and New2 which already exist.*/
+            Location_Path corresponding to SECOND_LVL_RESOURCE,
+            Location_Path corresponding to THIRD_LVL_RESOURCE; /*Try to add two new resources named New1 and New2 which already exist.*/
             and 
             the client entity sends an empty message containing 
             msg_type indicating value 2.00, /* Acknowledgement */ 
@@ -848,9 +848,9 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.02,
-            uri_path indicating value "separate",
-            uri_path indicating value "new1",
-            uri_path indicating value "new1a",
+            uri_path corresponding to SEPARATE_RESOURCE,
+            uri_path corresponding to SECOND_LVL_RESOURCE,
+            uri_path corresponding to NEW_RESOURCE,
             payload indicating value 116 145 167 061 057 116 145 167 062;
          }
          then {
@@ -859,8 +859,8 @@ Package mts_tst_coap {
             the IUT entity sends the second message containing 
             msg_type indicating value 0.00, /* Confirmable */ 
             code indicating value 2.04,
-            Location_Path indicating value "new1",
-            Location_Path indicating value "new1a"; /*Change resource separate/New1/New2 to separate/New1/New1a.*/
+            Location_Path corresponding to SECOND_LVL_RESOURCE,
+            Location_Path corresponding to NEW_RESOURCE; /*Change resource separate/New1/New2 to separate/New1/New1a.*/
             and 
             the client entity sends an empty message containing 
             msg_type indicating value 2.00, /* Acknowledgement */ 
@@ -893,7 +893,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.02,
-            uri_path indicating value "separate";
+            uri_path corresponding to SEPARATE_RESOURCE;
          }
          then {
             
@@ -933,7 +933,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.03,
-            uri_path indicating value "separate",
+            uri_path corresponding to SEPARATE_RESOURCE,
             payload indicating value 116 145 167 061 057;
          }
          then {
@@ -942,7 +942,7 @@ Package mts_tst_coap {
             the IUT entity sends the second message containing 
             msg_type indicating value 0.00, /* Confirmable */ 
             code indicating value 2.01,
-            Location_Path indicating value "New1"; 
+            Location_Path corresponding to SECOND_LVL_RESOURCE; 
             and 
             the client entity sends an empty message containing 
             msg_type indicating value 2.00, /* Acknowledgement */ 
@@ -975,8 +975,8 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.03,
-            uri_path indicating value "separate",
-            uri_path indicating value "new1";
+            uri_path corresponding to SEPARATE_RESOURCE,
+            uri_path corresponding to SECOND_LVL_RESOURCE;
          }
          then {
             
@@ -1016,7 +1016,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.04,
-            uri_path indicating value "separate";
+            uri_path corresponding to SEPARATE_RESOURCE;
          }
          then {
             
@@ -1024,7 +1024,7 @@ Package mts_tst_coap {
             the IUT entity sends the second message containing 
             msg_type indicating value 0.00, /* Confirmable */ 
             code indicating value 2.02,
-            Location_Path indicating value "new1"; /*Delete resource Separate */
+            Location_Path corresponding to SECOND_LVL_RESOURCE; /*Delete resource Separate */
             and 
             the client entity sends an empty message containing 
             msg_type indicating value 2.00, /* Acknowledgement */ 
@@ -1057,7 +1057,7 @@ Package mts_tst_coap {
             the IUT entity receives a message containing 
             msg_type indicating value 0, /* CONfirmable */
             code indicating value 0.04,
-            uri_path indicating value "separate";
+            uri_path corresponding to SEPARATE_RESOURCE;
          }
          then {
             
@@ -1065,7 +1065,7 @@ Package mts_tst_coap {
             the IUT entity sends the second message containing 
             msg_type indicating value 0.00, /* Confirmable */ 
             code indicating value 2.02,
-            Location_Path indicating value "new1"; /*Get Response code 2.02 although the requested resource does not exist*/
+            Location_Path corresponding to SECOND_LVL_RESOURCE; /*Get Response code 2.02 although the requested resource does not exist*/
             and 
             the client entity sends an empty message containing 
             msg_type indicating value 2.00, /* Acknowledgement */ 
@@ -1100,8 +1100,8 @@ Package mts_tst_coap {
 				the IUT entity receives a message containing 
 				msg_option indicating value 0, /* CONfirmable */
 				code indicating value 0.01,
-				host indicating value "IP Literal", /*default eg. [2001:db8::2:1] */
-				port indicating value "destination UDP port"; /*default eg. 5683 */
+				host corresponding to DEFAULT_HOST, /*default eg. [2001:db8::2:1] */
+				port corresponding to DEFAULT_PORT; /*default eg. 5683 */
 			    }
 			then {
 				the IUT entity sends the message containing 
@@ -1138,8 +1138,8 @@ Package mts_tst_coap {
 				the IUT entity receives a message containing 
 				msg_option indicating value 0, /* CONfirmable */
 				code indicating value 0.01,
-				host indicating value "IP Literal", /*default eg. [2001:db8::2:1] */
-				port indicating value "destination UDP port", /*default eg. 5683 */
+				host corresponding to DEFAULT_HOST, /*default eg. [2001:db8::2:1] */
+				port corresponding to DEFAULT_PORT, /*default eg. 5683 */
 				option_delta indicating value 3, /*URI-Host */
 				option_value indicating value "example.net";
 				
@@ -1179,8 +1179,8 @@ Package mts_tst_coap {
 				the IUT entity receives a message containing 
 				msg_option indicating value 0, /* CONfirmable */
 				code indicating value 0.01,
-				host indicating value "IP Literal", /*default eg. [2001:db8::2:1] */
-				port indicating value "destination UDP port", /*default eg. 5683 */
+				host corresponding to DEFAULT_HOST, /*default eg. [2001:db8::2:1] */
+				port corresponding to DEFAULT_PORT, /*default eg. 5683 */
 				option_delta indicating value 3, /*URI-Host */
 				option_value indicating value "example.net",
 				option_delta indicating value 8, /*URI-Path */
@@ -1223,8 +1223,8 @@ Package mts_tst_coap {
 				the IUT entity receives a message containing 
 				msg_option indicating value 0, /* CONfirmable */
 				code indicating value 0.01,
-				host indicating value "IP Literal", /*default eg. [2001:db8::2:1] */
-				port indicating value "destination UDP port", /*default eg. 5683 */
+				host corresponding to DEFAULT_HOST, /*default eg. [2001:db8::2:1] */
+				port corresponding to DEFAULT_PORT, /*default eg. 5683 */
 				option_delta indicating value 11, /*URI-Path */
 				option_value indicating value "",
 				option_delta indicating value 0, /*URI-Path */
@@ -1272,7 +1272,7 @@ Package mts_tst_coap {
 				the IUT entity receives a message containing 
 				msg_option indicating value 0, /* CONfirmable */
 				code indicating value 0.01,
-				proxy_uri indicating value "sample_proxy_uri";
+				proxy_uri corresponding to PROXY_URI;
 			    }
 			then {
 				the IUT entity sends the message containing 
@@ -1308,8 +1308,8 @@ Package mts_tst_coap {
 				the IUT entity receives a message containing 
 				msg_option indicating value 0, /* CONfirmable */
 				code indicating value 0.01,
-				proxy_uri indicating value "sample_proxy_uri",
-				uri_host indicating value "sample_uri";
+				proxy_uri corresponding to PROXY_URI,
+				uri_host corresponding to URI_HOST;
 			    }
 			then {
 				the IUT entity sends the message containing 
