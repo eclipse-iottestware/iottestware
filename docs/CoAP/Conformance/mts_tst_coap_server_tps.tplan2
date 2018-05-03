@@ -14,124 +14,456 @@
 Package mts_tst_coap_server_tps {
 	
    import all from mts_tst_coap_commons;
-   
-   Test Purpose {
-      TP Id TP_CoAP_MessageFormat_Header_001
-      
-      Test objective
-      "The IUT ignores a correct CoAP ReSeT message, including correct version number, type, token length , code and message id."
-      
-      Reference 
-      "RFC7252#section-3", 
-      "https://tools.ietf.org/html/rfc7252#section-3"
-      
-      PICS Selection PIC_Server
-      
-      Expected behaviour
-      ensure that {
-         when {
-            the IUT entity receives a message containing 
-            version indicating value 1, /* 01 in binary */
-            msg_type indicating value 3, /* ReSeT */
-            token_length indicating value 0,
-            code indicating value 0.00, /* EMPTY */
-            token indicating value 0;
-         }
-         then {
-            the client entity times_out /* 2s ACK_TIMEOUT */ 
-         }
-      } 
-   }
-   
-   Test Purpose {
-      TP Id TP_CoAP_MessageFormat_Header_002
-      
-      Test objective
-      "The IUT ignores on an incorrect CoAP message header.
-   The version number, a 2-bit unsigned integer, is set to the reserved value 3." 
-      
-      Reference 
-      "RFC7252#section-3", 
-      "https://tools.ietf.org/html/rfc7252#section-3"
-      
-      PICS Selection PIC_Server
-      
-      Expected behaviour
-      ensure that {
-         when {
-            the IUT entity receives a message containing 
-            version indicating value 3, 
-            msg_type indicating value 0, /* CONfirmable */
-            token_length indicating value 0,
-            code indicating value 0.00, /* EMPTY */
-            token indicating value 0;
-         }
-         then {
-            the client entity times_out /* 2s ACK_TIMEOUT */ 
-         }
-      } 
-   }
 
    Test Purpose {
-      TP Id TP_CoAP_MessageFormat_Header_003
+      TP Id TP_CoAP_MessageFormat_Header_Version_001
       
       Test objective
-      "The IUT ignores on an incorrect CoAP message header.
-   The token length, a 4-bit unsigned integer, is set to 9 and must processed as message format error." 
+      "The IUT is responding on a correctly set version number."
       
       Reference 
       "RFC7252#section-3", 
-      "https://tools.ietf.org/html/rfc7252#section-3"
-      
-      PICS Selection PIC_Server
-      
-      Expected behaviour
-      ensure that {
-         when {
-            the IUT entity receives a message containing 
-            version indicating value 1, 
-            msg_type indicating value 0, /* CONfirmable */
-            token_length indicating value 9, /* reserved */
-            code indicating value 0.00, /* EMPTY */
-            token indicating value 0;
-         }
-         then {
-            the IUT entity sends no message and
-            the client entity times_out /* 2s ACK_TIMEOUT */
-            // TODO: check message format error
-         }
-      } 
-   }
-   
-   Test Purpose {
-      TP Id TP_CoAP_Server_001 /* Sect. 4.1.1.1 */
-      
-      /* Summary */
-      Test objective 
-      "The IUT is responding on a PING message." 
-      
-      Reference 
-      "RFC7252#section4.2", 
+      "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.2 (b)", 
       "https://tools.ietf.org/html/rfc7252#section-4.2"
       
       PICS Selection PIC_Server
-
+      
       Expected behaviour
       ensure that {
          when {
-            the IUT entity receives a message containing 
-            msg_type indicating value 0, /* CONfirmable */
-            code indicating value 0.00;
+            the IUT entity receives a request message containing 
+               version indicating value 1,
+               msg_type indicating value 0, //Confirmable
+               token_length indicating value 0,
+               code indicating value 0.00, //Empty Message
+               msg_id corresponding to MSG_ID1;
          }
          then {
-            the IUT entity sends the message containing 
-            msg_type indicating value 3; /* ReSeT */ 
+            the IUT entity sends a response message containing
+               version indicating value 1,
+               msg_type indicating value 3, //Reset
+               token_length indicating value 0,
+               code indicating value 0.00, //Empty Message
+               msg_id corresponding to the value of request message;
+            or the client entity times_out //from section 4.2 (b)
          }
       } 
    }
    
    Test Purpose {
-      TP Id TP_CoAP_Server_GET_001 /* Sect. 5.8.1 */
+      TP Id TP_CoAP_MessageFormat_Header_Version_002
+      
+      Test objective
+      "The IUT silently ignores an incorrectly set version number."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.2 (b)", 
+      "https://tools.ietf.org/html/rfc7252#section-4.2"
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a request message containing 
+               version indicating value 3, //reserved
+               msg_type indicating value 0, //Confirmable
+               token_length indicating value 0,
+               code indicating value 0.00, //Empty Message
+               msg_id corresponding to MSG_ID1;
+         }
+         then {
+            the client entity times_out //2sec ACK_TIMEOUT
+         }
+      } 
+   }
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_Type_CON_001
+      
+      Test objective
+      "The IUT is acknowledging on a Confirmable message correctly."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.2 (a)", 
+      "https://tools.ietf.org/html/rfc7252#section-4.2"
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a request message containing 
+               version indicating value 1,
+               msg_type indicating value 0, //Confirmable
+               token_length indicating value 0,
+               code indicating value 0.01, //GET request
+               msg_id corresponding to MSG_ID1;
+         }
+         then {
+            the IUT entity sends a response message containing
+               version indicating value 1,
+               msg_type indicating value 2, //Acknowledge, from section 4.2 (a)
+               token_length indicating value 0,
+               code indicating value 2.05, //Success (Content)
+               msg_id corresponding to the value of request message; 
+         }
+      } 
+   }
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_Type_CON_002
+      
+      Test objective
+      "The IUT is rejecting a Confirmable message that is carrying a response."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.2 (b)", 
+      "https://tools.ietf.org/html/rfc7252#section-4.2"    
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a request message containing 
+               version indicating value 1,
+               msg_type indicating value 0, //Confirmable
+               token_length indicating value 0,
+               code indicating value 2.03, //Valid, respnse code
+               msg_id corresponding to MSG_ID1;
+         }
+         then {
+            the IUT entity sends a response message containing
+               version indicating value 1,
+               msg_type indicating value 3, //Reset
+               token_length indicating value 0,
+               code indicating value 0.00, //Empty Message
+               msg_id corresponding to the value of request message;
+            or the client entity times_out
+         }
+      }
+       
+   }
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_Type_CON_003
+      
+      Test objective
+      "The IUT is rejecting a Confirmable message that lacks context to process the message properly.
+       The message carries a reserved class."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.2 (b)", 
+      "https://tools.ietf.org/html/rfc7252#section-4.2"    
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a request message containing 
+               version indicating value 1,
+               msg_type indicating value 0, //Confirmable
+               token_length indicating value 0,
+               code indicating value 1.00, //reserved
+               msg_id corresponding to MSG_ID1;
+         }
+         then {
+            the IUT entity sends a response message containing
+               version indicating value 1,
+               msg_type indicating value 3, //Reset
+               token_length indicating value 0,
+               code indicating value 0.00, //Empty Message
+               msg_id corresponding to the value of request message;
+            or the client entity times_out
+         }
+      } 
+   }
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_Type_NON_001
+      
+      Test objective
+      "The IUT is acknowledging on a Non-confirmable message correctly."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.3", 
+      "https://tools.ietf.org/html/rfc7252#section-4.3"
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a request message containing 
+               version indicating value 1,
+               msg_type indicating value 1, //Non-confirmable
+               token_length indicating value 0,
+               code indicating value 0.01, //GET request
+               msg_id corresponding to MSG_ID1;
+         }
+         then {
+            the IUT entity sends a response message containing
+               version indicating value 1,
+               msg_type indicating value 1, //Non-confirmable
+               token_length indicating value 0,
+               code indicating value 2.05, //Success (Content)
+               msg_id corresponding to MSG_ID2;
+         }
+      } 
+   }
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_Type_NON_002
+      
+      Test objective
+      "The IUT is rejecting a Non-confirmable message that is Empty."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.3", 
+      "https://tools.ietf.org/html/rfc7252#section-4.3"
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a request message containing 
+               version indicating value 1,
+               msg_type indicating value 1, //Non-confirmable
+               token_length indicating value 0,
+               code indicating value 0.00, //Empty Message
+               msg_id corresponding to MSG_ID1;
+         }
+         then {
+            the client entity times_out //2sec ACK_TIMEOUT 
+         }
+      } 
+   }
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_Type_NON_003
+      
+      Test objective
+      "The IUT is rejecting a Non-confirmable message that is carrying a response."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.3", 
+      "https://tools.ietf.org/html/rfc7252#section-4.3"
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a request message containing 
+               version indicating value 1,
+               msg_type indicating value 1, //Non-confirmable
+               token_length indicating value 0,
+               code indicating value 2.03, //Success (Valid)
+               msg_id corresponding to MSG_ID1;
+         }
+         then {
+            the client entity times_out //2sec ACK_TIMEOUT 
+         }
+      }   
+   }
+   
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_Type_NON_004
+      
+      Test objective
+      "The IUT is rejecting a NON-confirmable message that lacks context to process the message properly.
+       The message carries a reserved class."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.3", 
+      "https://tools.ietf.org/html/rfc7252#section-4.3"    
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a request message containing 
+               version indicating value 1,
+               msg_type indicating value 0, //Confirmable
+               token_length indicating value 0,
+               code indicating value 6.00, //reserved
+               msg_id corresponding to MSG_ID1;
+         }
+         then {
+            the client entity times_out //2sec ACK_TIMEOUT 
+         }
+      }
+   }
+   
+   
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_Type_ACK_001
+      
+      Test objective
+      "The IUT is rejecting an Acknowledgement message that is carrying an request."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.2", 
+      "https://tools.ietf.org/html/rfc7252#section-4.2"    
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a request message containing 
+               version indicating value 1,
+               msg_type indicating value 2, //Acknowledgement
+               token_length indicating value 0,
+               code indicating value 0.02, //POST request
+               msg_id corresponding to MSG_ID1;
+         }
+         then {
+            the client entity times_out //2sec ACK_TIMEOUT 
+         }
+      }
+   }
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_Type_ACK_002
+      
+      Test objective
+      "The IUT is rejecting a Acknowledgement message that carries a reserved class."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.2", 
+      "https://tools.ietf.org/html/rfc7252#section-4.2"    
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a request message containing 
+               version indicating value 1,
+               msg_type indicating value 2, //Acknowledgement
+               token_length indicating value 0,
+               code indicating value 7.00, //reserved
+               msg_id corresponding to MSG_ID1;
+         }
+         then {
+            the client entity times_out //2sec ACK_TIMEOUT 
+         }
+      }
+   }
+       
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_Type_RST_001
+      
+      Test objective
+      "The IUT is rejecting a Reset message that is not Empty."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.2", 
+      "https://tools.ietf.org/html/rfc7252#section-4.2"    
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a request message containing 
+               version indicating value 1,
+               msg_type indicating value 3, //Reset
+               token_length indicating value 0,
+               code indicating value 0.02, //PUT request
+               msg_id corresponding to MSG_ID1;
+         }
+         then {
+            the client entity times_out //2sec ACK_TIMEOUT 
+         }
+      }
+   }
+   
+   /* ############################ Proofed til here! ##################################################### */  
+   
+   // https://tools.ietf.org/html/rfc7252#section-5.3.1 (TOKEN)
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_TokenLength_001
+      
+      Test objective
+      "The IUT is responding on a valid token length correctly."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3"       
+   }
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_TokenLength_002
+      
+      Test objective
+      "The IUT is responding on a invalid token length correctly."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3"
+      
+      PICS Selection PIC_Server
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a request message containing 
+               version indicating value 1,
+               msg_type indicating value 0, //Confirmable
+               token_length indicating value 53,
+               code indicating value 0.01, //GET request
+               msg_id corresponding to MSG_ID1;
+         }
+         then {
+            the client entity times_out //2sec ACK_TIMEOUT 
+         }
+      }  
+   }
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_TokenLength_002
+      
+      Test objective
+      "The IUT is processing a message format error when receiving a reserved token length."
+      
+      Reference 
+      "RFC7252#section-3", 
+      "https://tools.ietf.org/html/rfc7252#section-3"       
+   } 
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_Code_Content /* Sect. 5.8.1 */
       
       /* Summary */
       Test objective 
@@ -164,44 +496,10 @@ Package mts_tst_coap_server_tps {
       } 
    }
    
-   Test Purpose {
-      TP Id TP_CoAP_Server_GET_002 /* Sect. 5.8.1 */
-      
-      /* Summary */
-      Test objective 
-      "The IUT is responding with code 2.05 on a GET request." 
-      
-      Reference 
-      "RFC7252#section-5.8.1", "https://tools.ietf.org/html/rfc7252#section-5.8.1"
-      
-      PICS Selection PIC_Server
-      
-      Initial conditions
-      with 
-      {
-         the IUT entity must provide a resource named Simple_Resource/New_Resource
-      }
-
-
-      Expected behaviour
-      ensure that {
-         when {
-            the IUT entity receives a message containing 
-            msg_type indicating value 0, /* CONfirmable */
-            code indicating value 0.01,
-            uri_path corresponding to DEFAULT_RESOURCE,
-            uri_path corresponding to NEW_RESOURCE;
-         }
-         then {
-            the IUT entity sends the message containing 
-            msg_type indicating value 2, /* ACknowledgement */ 
-            code indicating value 2.05;
-         }
-      } 
-   }
+   
    
    Test Purpose {
-      TP Id TP_CoAP_Server_GET_003 /* Sect. 5.8.1 */
+      TP Id TP_CoAP_MessageFormat_Header_Code_MethodNotAllowed_001 /* Sect. 5.8.1 */
       
       /* Summary */
       Test objective 
@@ -235,7 +533,41 @@ Package mts_tst_coap_server_tps {
    }
    
    Test Purpose {
-      TP Id TP_CoAP_Server_GET_004 /* Sect. 5.8.1 */
+      TP Id TP_CoAP_MessageFormat_Header_Code_MethodNotAllowed_002 /* Sect. 5.8.2 */
+      
+      /* Summary */
+      Test objective 
+      "The IUT is responding with code 4.05 on a POST request." 
+      
+      Reference 
+      "RFC7252#section-5.8.2", "https://tools.ietf.org/html/rfc7252#section-5.8.2"
+      
+      PICS Selection PIC_Server
+
+      Initial conditions
+      with 
+      {
+         the IUT entity must provide a resource named Simple_Resource and must not implement the POST operation
+      }
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a message containing 
+            msg_type indicating value 0, /* CONfirmable */
+            code indicating value 0.02,
+            uri_path corresponding to DEFAULT_RESOURCE;
+         }
+         then {
+            the IUT entity sends the message containing 
+            msg_type indicating value 2, /* ACknowledgement */ 
+            code indicating value 4.05;
+         }
+      } 
+   }
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_Code_NotFound /* Sect. 5.8.1 */
       
       /* Summary */
       Test objective 
@@ -269,7 +601,7 @@ Package mts_tst_coap_server_tps {
    }
    
    Test Purpose {
-      TP Id TP_CoAP_Server_POST_001 /* Sect. 5.8.2 */
+      TP Id TP_CoAP_MessageFormat_Header_Code_Created_001 /* Sect. 5.8.2 */
       
       /* Summary */
       Test objective 
@@ -306,7 +638,43 @@ Package mts_tst_coap_server_tps {
    }
    
    Test Purpose {
-      TP Id TP_CoAP_Server_POST_002 /* Sect. 5.8.2 */
+      TP Id TP_CoAP_MessageFormat_Header_Code_Created_002 /* Sect. 5.8.3*/
+      
+      /* Summary */
+      Test objective 
+      "The IUT is responding with code 2.01 on a PUT request." 
+      
+      Reference 
+      "RFC7252#section-5.8.3", "https://tools.ietf.org/html/rfc7252#section-5.8.3"
+      
+      PICS Selection PIC_Server
+
+      Initial conditions
+      with 
+      {
+         the IUT entity must provide a resource named Storage_Resource
+      }
+      
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a message containing
+            msg_type indicating value 0, /* CONfirmable */
+            code indicating value 0.03,
+            uri_path corresponding to STORAGE_RESOURCE,
+            payload indicating value 116 145 167 061 057 116 145 167 062;
+         }
+         then {
+            the IUT entity sends the message containing
+            msg_type indicating value 2, /* ACknowledgement */ 
+            code indicating value 2.01,
+            LocationPath corresponding to SECOND_LVL_RESOURCE;
+         }
+      } 
+   }
+   
+   Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Header_Code_Changed_001 /* Sect. 5.8.2 */
       
       /* Summary */
       Test objective 
@@ -345,7 +713,7 @@ Package mts_tst_coap_server_tps {
    }
    
    Test Purpose {
-      TP Id TP_CoAP_Server_POST_003 /* Sect. 5.8.2 */
+      TP Id TP_CoAP_MessageFormat_Header_Code_Changed_002 /* Sect. 5.8.2 */
       
       /* Summary */
       Test objective 
@@ -383,78 +751,12 @@ Package mts_tst_coap_server_tps {
       } 
    }
    
-   Test Purpose {
-      TP Id TP_CoAP_Server_POST_004 /* Sect. 5.8.2 */
-      
-      /* Summary */
-      Test objective 
-      "The IUT is responding with code 4.05 on a POST request." 
-      
-      Reference 
-      "RFC7252#section-5.8.2", "https://tools.ietf.org/html/rfc7252#section-5.8.2"
-      
-      PICS Selection PIC_Server
-
-      Initial conditions
-      with 
-      {
-         the IUT entity must provide a resource named Simple_Resource and must not implement the POST operation
-      }
-      
-      Expected behaviour
-      ensure that {
-         when {
-            the IUT entity receives a message containing 
-            msg_type indicating value 0, /* CONfirmable */
-            code indicating value 0.02,
-            uri_path corresponding to DEFAULT_RESOURCE;
-         }
-         then {
-            the IUT entity sends the message containing 
-            msg_type indicating value 2, /* ACknowledgement */ 
-            code indicating value 4.05;
-         }
-      } 
-   }
+   
+   
+   
    
    Test Purpose {
-      TP Id TP_CoAP_Server_PUT_001 /* Sect. 5.8.3*/
-      
-      /* Summary */
-      Test objective 
-      "The IUT is responding with code 2.01 on a PUT request." 
-      
-      Reference 
-      "RFC7252#section-5.8.3", "https://tools.ietf.org/html/rfc7252#section-5.8.3"
-      
-      PICS Selection PIC_Server
-
-      Initial conditions
-      with 
-      {
-         the IUT entity must provide a resource named Storage_Resource
-      }
-      
-      Expected behaviour
-      ensure that {
-         when {
-            the IUT entity receives a message containing
-            msg_type indicating value 0, /* CONfirmable */
-            code indicating value 0.03,
-            uri_path corresponding to STORAGE_RESOURCE,
-            payload indicating value 116 145 167 061 057 116 145 167 062;
-         }
-         then {
-            the IUT entity sends the message containing
-            msg_type indicating value 2, /* ACknowledgement */ 
-            code indicating value 2.01,
-            LocationPath corresponding to SECOND_LVL_RESOURCE;
-         }
-      } 
-   }
-   
-   Test Purpose {
-      TP Id TP_CoAP_Server_PUT_002 /* Sect. 5.8.3*/
+      TP Id TP_CoAP_MessageFormat_Header_Code_Changed_003 /* Sect. 5.8.3*/
       
       /* Summary */
       Test objective 
@@ -490,7 +792,7 @@ Package mts_tst_coap_server_tps {
    }
    
    Test Purpose {
-      TP Id TP_CoAP_Server_DELETE_001 /* Sect. 5.8.3*/
+      TP Id TP_CoAP_MessageFormat_Header_Code_Deleted_001 /* Sect. 5.8.3*/
       
       /* Summary */
       Test objective 
@@ -524,7 +826,7 @@ Package mts_tst_coap_server_tps {
    }
    
    Test Purpose {
-      TP Id TP_CoAP_Server_DELETE_002 /* Sect. 5.8.3*/
+      TP Id TP_CoAP_MessageFormat_Header_Code_Deleted_002 /* Sect. 5.8.3*/
       
       /* Summary */
       Test objective 
@@ -557,146 +859,7 @@ Package mts_tst_coap_server_tps {
       } 
    }
    
-   Test Purpose {
-      TP Id TP_CoAP_Server_NON_001 /* Sect. 5.2.3 */
-      
-      /* Summary */
-      Test objective 
-      "The IUT is responding with code 2.05 on a NON-confirmable GET request." 
-      
-      Reference 
-      "RFC7252#section-5.2.3", "https://tools.ietf.org/html/rfc7252#section-5.2.3"
-      
-      PICS Selection PIC_Server
-
-      Initial conditions
-      with 
-      {
-         the IUT entity must provide a resource named Simple_Resource
-      }
-      
-      Expected behaviour
-      ensure that {
-         when {
-            the IUT entity receives a message containing 
-            msg_type indicating value 1, /* NON-confirmable */
-            code indicating value 0.01,
-            uri_path corresponding to DEFAULT_RESOURCE;
-         }
-         then {
-            the IUT entity sends the message containing 
-            msg_type indicating value 1, /* NON-confirmable */
-            code indicating value 2.05;
-         }
-      } 
-   }
    
-   Test Purpose {
-      TP Id TP_CoAP_Server_NON_002 /* Sect. 5.2.3 */
-      
-      /* Summary */
-      Test objective 
-      "The IUT is responding with code 2.01 on a NON-confirmable POST request." 
-      
-      Reference 
-      "RFC7252#section-5.2.3", "https://tools.ietf.org/html/rfc7252#section-5.2.3"
-      
-      PICS Selection PIC_Server
-      
-      Initial conditions
-      with 
-      {
-         the IUT entity must provide a resource named Storage_Resource
-      }
-      
-      Expected behaviour
-      ensure that {
-         when {
-            the IUT entity receives a message containing 
-            msg_type indicating value 1, /* NON-confirmable */
-            code indicating value 0.02,
-            uri_path corresponding to STORAGE_RESOURCE,
-            payload indicating value 116 145 167 061 057 116 145 167 062;
-         }
-         then {
-            the IUT entity sends the message containing 
-            msg_type indicating value 1, /* NON-confirmable */ 
-            code indicating value 2.01,
-            LocationPath corresponding to SECOND_LVL_RESOURCE,
-            LocationPath corresponding to THIRD_LVL_RESOURCE;
-         }
-      }
-   }
-   
-   Test Purpose {
-      TP Id TP_CoAP_Server_NON_003 /* Sect. 5.2.3 */
-      
-      /* Summary */
-      Test objective 
-      "The IUT is responding with code 2.01 on a NON-confirmable PUT request." 
-      
-      Reference 
-      "RFC7252#section-5.2.3", "https://tools.ietf.org/html/rfc7252#section-5.2.3"
-      
-      PICS Selection PIC_Server
-
-      Initial conditions
-      with 
-      {
-         the IUT entity must provide a resource named Storage_Resource
-      }
-      
-      Expected behaviour
-      ensure that {
-         when {
-            the IUT entity receives a message containing
-            msg_type indicating value 1, /* NON-confirmable */
-            code indicating value 0.03,
-            uri_path corresponding to STORAGE_RESOURCE,
-            payload indicating value 116 145 167 061 057 116 145 167 062;
-         }
-         then {
-            the IUT entity sends the message containing
-            msg_type indicating value 1, /* NON-confirmable */ 
-            code indicating value 2.01,
-            LocationPath corresponding to SECOND_LVL_RESOURCE;
-         }
-      }
-   }
-   
-   Test Purpose {
-      TP Id TP_CoAP_Server_NON_004 /* Sect. 5.2.3 */
-      
-      /* Summary */
-      Test objective 
-      "The IUT is responding with code 2.02 on a DELETE request." 
-      
-      Reference 
-      "RFC7252#section-5.2.3", "https://tools.ietf.org/html/rfc7252#section-5.2.3"
-      
-      PICS Selection PIC_Server
-
-      Initial conditions
-      with 
-      {
-         the IUT entity must provide a resource named Storage_Resource
-      }
-      
-      Expected behaviour
-      ensure that {
-         when {
-            the IUT entity receives a message containing
-            msg_type indicating value 1, /* NON-confirmable */
-            code indicating value 0.04,
-            uri_path corresponding to STORAGE_RESOURCE;
-         }
-         then {
-            the IUT entity sends the message containing
-            msg_type indicating value 1, /* NON-confirmable */ 
-            code indicating value 2.02;  /* Delete resource Resource “Storage_Resource”. */
-         }
-      }
-   }
    
    Test Purpose {
       TP Id TP_CoAP_Server_Separate_Response_GET_001 /* Sect. 5.8.3*/
@@ -1075,7 +1238,7 @@ Package mts_tst_coap_server_tps {
    }  
    
       Test Purpose {
-		TP Id TP_CoAP_Options_Coap_Uri /* Sect. 5.10.1. */
+		TP Id TP_CoAP_Server_Options_UriHost_001 /* Sect. 5.10.1. */
 		
 		/* Summary */
  		Test objective 
@@ -1113,7 +1276,7 @@ Package mts_tst_coap_server_tps {
 	    }
 		    
 	Test Purpose {
-		TP Id TP_CoAP_Options_Uri_Host /* Sect. 5.10.1. */
+		TP Id TP_CoAP_Server_Options_UriHost_002 /* Sect. 5.10.1. */
 		
 		/* Summary */
  		Test objective 
@@ -1154,7 +1317,7 @@ Package mts_tst_coap_server_tps {
 		}
 		
 	Test Purpose {
-		TP Id TP_CoAP_Options_Uri_Path /* Sect. 5.10.1. */
+		TP Id TP_CoAP_Server_Options_UriPath_001 /* Sect. 5.10.1. */
 		
 		/* Summary */
  		Test objective 
@@ -1196,9 +1359,45 @@ Package mts_tst_coap_server_tps {
                 }
 		    } 
 	    }
+	    
+	    Test Purpose {
+      TP Id TP_CoAP_Server_Options_UriPath_002 /* Sect. 5.8.1 */
+      
+      /* Summary */
+      Test objective 
+      "The IUT is responding with code 2.05 on a GET request." 
+      
+      Reference 
+      "RFC7252#section-5.8.1", "https://tools.ietf.org/html/rfc7252#section-5.8.1"
+      
+      PICS Selection PIC_Server
+      
+      Initial conditions
+      with 
+      {
+         the IUT entity must provide a resource named Simple_Resource/New_Resource
+      }
+
+
+      Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a message containing 
+            msg_type indicating value 0, /* CONfirmable */
+            code indicating value 0.01,
+            uri_path corresponding to DEFAULT_RESOURCE,
+            uri_path corresponding to NEW_RESOURCE;
+         }
+         then {
+            the IUT entity sends the message containing 
+            msg_type indicating value 2, /* ACknowledgement */ 
+            code indicating value 2.05;
+         }
+      } 
+   }
 	
 	Test Purpose {
-		TP Id TP_CoAP_Options_Uri_Query /* Sect. 5.10.1. */
+		TP Id TP_CoAP_Server_Options_UriQuery_001 /* Sect. 5.10.1. */
 		
 		/* Summary */
  		Test objective 
@@ -1248,7 +1447,7 @@ Package mts_tst_coap_server_tps {
 	    }
 
 	Test Purpose {
-		TP Id TP_CoAP_Options_Proxy_Uri /* Sect. 5.10.2. */
+		TP Id TP_CoAP_Server_Options_ProxyUri_001 /* Sect. 5.10.2. */
 		
 		/* Summary */
  		Test objective 
@@ -1283,7 +1482,7 @@ Package mts_tst_coap_server_tps {
 	    }
 	    
     Test Purpose {
-		TP Id TP_CoAP_Options_Proxy_Uri_Fail /* Sect. 5.10.2. */
+		TP Id TP_CoAP_Server_Options_ProxyUri_002 /* Sect. 5.10.2. */
 		
 		/* Summary */
  		Test objective 
@@ -1320,7 +1519,7 @@ Package mts_tst_coap_server_tps {
 	    }
 
    Test Purpose {
-		TP Id TP_CoAP_Options_Content_Format /* Sect. 5.10.3. */
+		TP Id TP_CoAP_Server_Options_ContentFormat_001 /* Sect. 5.10.3. */
 		
 		/* Summary */
  		Test objective 
@@ -1357,7 +1556,7 @@ Package mts_tst_coap_server_tps {
 	    }
 
    Test Purpose {
-		TP Id TP_CoAP_Options_Content_Format_Fail /* Sect. 5.10.3. */
+		TP Id TP_CoAP_Server_Options_ContentFormat_002 /* Sect. 5.10.3. */
 		
 		/* Summary */
  		Test objective 
@@ -1395,7 +1594,7 @@ Package mts_tst_coap_server_tps {
 	    }
 
    Test Purpose {
-		TP Id TP_CoAP_Options_Content_Accept /* Sect. 5.10.4. */
+		TP Id TP_CoAP_Server_Options_ContentAccept_001 /* Sect. 5.10.4. */
 		
 		/* Summary */
  		Test objective 
@@ -1432,7 +1631,7 @@ Package mts_tst_coap_server_tps {
 	    }
 	    
    Test Purpose {
-		TP Id TP_CoAP_Options_Content_Accept_Fail /* Sect. 5.10.4. */
+		TP Id TP_CoAP_Server_Options_ContentAccept__002 /* Sect. 5.10.4. */
 		
 		/* Summary */
  		Test objective 
