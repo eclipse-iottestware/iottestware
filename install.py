@@ -58,7 +58,7 @@ IOT_TESTWARE_MODULES = {
         "src/negative_testing/MQTT_v3_1_1_IPL4SizeFunction.ttcn",
         "src/negative_testing/MQTT_v3_1_1_EncDec.cc",
         "src/negative_testing/MQTT_v3_1_1_Size.cc"],
-    "opcua": ["src/OpcUa_Common.ttcn", 
+    "opcua": ["src/OpcUa_Common.ttcn",
         "src/OpcUa_Templates_Binary.ttcn",
         "src/OpcUA_Types_Binary.ttcn"]
 }
@@ -79,7 +79,7 @@ if args.executable_name!=None:
     NAME_EXE = args.executable_name[0]
 print(NAME_EXE)
 
-# current working directory 
+# current working directory
 project_dir = os.getcwd()
 
 # Git flags
@@ -149,12 +149,15 @@ def install(protocol):
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
         subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_SOCKET_API_VERSION]).communicate()[0]
-
-        # back to cwd
-        os.chdir(project_dir)
     else:
         subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_SOCKET_API, PATH_SOCKET_API]).communicate()[0]
+
+        # go to PATH_SOCKET_API and checkout the required version
+        os.chdir(PATH_SOCKET_API)
         subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_SOCKET_API_VERSION]).communicate()[0]
+
+    # back to cwd
+    os.chdir(project_dir)
 
     if os.path.isdir(PATH_IPL4):
         print(PATH_IPL4 + " already exists")
@@ -163,12 +166,15 @@ def install(protocol):
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
         subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_IPL4_VERSION]).communicate()[0]
-
-        # back to cwd
-        os.chdir(project_dir)
     else:
         subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_IPL4, PATH_IPL4]).communicate()[0]
+
+        # go to PATH_IPL4 and checkout the required version
+        os.chdir(PATH_IPL4)
         subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_IPL4_VERSION]).communicate()[0]
+
+    # back to cwd
+    os.chdir(project_dir)
 
     print(" Test ports ... done!")
 
@@ -182,12 +188,15 @@ def install(protocol):
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
         subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_COMMON_VERSION]).communicate()[0]
-
-        # back to cwd
-        os.chdir(project_dir)
     else:
         subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_COMMON, PATH_COMMON]).communicate()[0]
+
+        # go to PATH_COMMON and checkout the required version
+        os.chdir(PATH_COMMON)
         subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_COMMON_VERSION]).communicate()[0]
+
+    # back to cwd
+    os.chdir(project_dir)
 
     if os.path.isdir(PATH_PROTOCOL):
         print(PATH_PROTOCOL + " already exists")
@@ -196,12 +205,15 @@ def install(protocol):
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
         subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_PROTOCOL_VERSION[args.protocol]]).communicate()[0]
-
-        # back to cwd
-        os.chdir(project_dir)
     else:
         subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_PROTOCOL, PATH_PROTOCOL]).communicate()[0]
+
+        # go to PATH_PROTOCOL and checkout the required version
+        os.chdir(PATH_PROTOCOL)
         subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_PROTOCOL_VERSION[args.protocol]]).communicate()[0]
+
+    # back to cwd
+    os.chdir(project_dir)
 
     print(" Protocol modules ... done!")
 
@@ -215,12 +227,15 @@ def install(protocol):
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
         subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_TCC_VERSION]).communicate()[0]
-
-        # back to cwd
-        os.chdir(project_dir)
     else:
         subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_TCC, PATH_TCC]).communicate()[0]
+
+        # go to PATH_TCC and checkout the required version
+        os.chdir(PATH_TCC)
         subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_TCC_VERSION]).communicate()[0]
+
+    # back to cwd
+    os.chdir(project_dir)
 
     print(" Libraries ... done!")
     print("Getting Dependencies done!")
@@ -242,7 +257,7 @@ def install(protocol):
     print(" Bin directory clean!")
 
     # Create symlinks inside the bin folder to create a Makefile in the next step
-    os.symlink(PATH_COMMON + "/src/General_Types.ttcn", "General_Types.ttcn")	
+    os.symlink(PATH_COMMON + "/src/General_Types.ttcn", "General_Types.ttcn")
 
     # link to IPL4asp TestPort
     os.symlink(PATH_IPL4 + "/src/IPL4asp_Types.ttcn", "IPL4asp_Types.ttcn")
@@ -252,7 +267,7 @@ def install(protocol):
     os.symlink(PATH_IPL4 + "/src/IPL4asp_PT.hh", "IPL4asp_PT.hh")
     os.symlink(PATH_IPL4 + "/src/IPL4asp_protocol_L234.hh", "IPL4asp_protocol_L234.hh")
     os.symlink(PATH_IPL4 + "/src/IPL4asp_discovery.cc", "IPL4asp_discovery.cc")
-    
+
     # link to Socket_API_CNL113686 TestPort
     os.symlink(PATH_SOCKET_API + "/src/Socket_API_Definitions.ttcn", "Socket_API_Definitions.ttcn")
 
@@ -266,8 +281,8 @@ def install(protocol):
     # link to protocol files
     for file in IOT_TESTWARE_MODULES[args.protocol]:
         os.symlink(PATH_PROTOCOL+file, os.path.basename(file))
-        
-    
+
+
     # link to IoT-Testware modules
     src_dir = glob.glob(PATH_TW+"/src/*")
     for file in src_dir:
@@ -283,8 +298,8 @@ def build():
     if not os.path.isdir(bin_folder):
         print("bin folder does not exist. Please run the script again with '-b' or '--build' flag before.")
         parser.print_help()
-        return        
- 
+        return
+
     os.chdir(bin_folder)
 
     # Create a Makefile
@@ -296,7 +311,7 @@ def build():
     os.system("make")
     print("Compilation done!")
     print("Building the project done!")
-    
+
 
 def Main():
     print("Getting dependencies ...")
