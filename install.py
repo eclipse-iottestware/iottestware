@@ -77,7 +77,6 @@ PROTOCOL = IOT_TESTWARE[args.protocol]
 NAME_EXE = "iottestware_"+PROTOCOL
 if args.executable_name!=None:
     NAME_EXE = args.executable_name[0]
-print(NAME_EXE)
 
 # current working directory
 project_dir = os.getcwd()
