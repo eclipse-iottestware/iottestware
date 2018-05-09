@@ -60,7 +60,7 @@ IOT_TESTWARE_MODULES = {
         "src/negative_testing/MQTT_v3_1_1_Size.cc"],
     "opcua": ["src/OpcUa_Common.ttcn",
         "src/OpcUa_Templates_Binary.ttcn",
-        "src/OpcUA_Types_Binary.ttcn"]
+        "src/OpcUa_Types_Binary.ttcn"]
 }
 
 # version number of needed module
@@ -302,7 +302,7 @@ def build():
     os.chdir(bin_folder)
 
     # Create a Makefile
-    os.system("ttcn3_makefilegen -f -g -m -e "+NAME_EXE+" *.ttcn *.hh *.cc")
+    os.system("ttcn3_makefilegen -f -g -G -m -e "+NAME_EXE+" *.ttcn *.hh *.cc")
     print("Makefile generated!")
 
     # compile and build
