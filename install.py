@@ -302,7 +302,7 @@ def build():
     os.chdir(bin_folder)
 
     # Create a Makefile
-    os.system("ttcn3_makefilegen -f -g -G -m -e "+NAME_EXE+" *.ttcn *.hh *.cc")
+    os.system("ttcn3_makefilegen -f -g -m -e "+NAME_EXE+" *.ttcn *.hh *.cc")
     print("Makefile generated!")
 
     # compile and build
