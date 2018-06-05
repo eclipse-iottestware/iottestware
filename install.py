@@ -50,19 +50,6 @@ IOT_TESTWARE = {
     "opcua":"OPC_UA"
 }
 
-# modules needed by every protocol
-IOT_TESTWARE_MODULES = {
-    "coap":["src/negative_testing/CoAP_EncDec.cc",
-        "src/negative_testing/CoAP_Types.ttcn"],
-    "mqtt":["src/negative_testing/MQTT_v3_1_1_Types.ttcn",
-        "src/negative_testing/MQTT_v3_1_1_IPL4SizeFunction.ttcn",
-        "src/negative_testing/MQTT_v3_1_1_EncDec.cc",
-        "src/negative_testing/MQTT_v3_1_1_Size.cc"],
-    "opcua": ["src/OpcUa_Common.ttcn",
-        "src/OpcUa_Templates_Binary.ttcn",
-        "src/OpcUa_Types_Binary.ttcn"]
-}
-
 # version number of needed module
 GIT_PROTOCOL_VERSION = {
     "coap":"8e47e5abb89b88fcbe0d42f6372d940e495fdb62",
