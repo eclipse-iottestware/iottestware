@@ -1,7 +1,12 @@
 Package mts_mqtt_commons {
     Domain {
         pics:
-        - PIC_Broker
+        - PICS_BROKER_BASIC     // Minimum each Broker should provide
+        - PICS_BROKER_QOS_1     // QoS 1 is required
+        - PICS_BROKER_QOS_2     // QoS 2 is required
+        - PICS_BROKER_LWT       // Last Will Testament
+        - PICS_BROKER_RTND      // Retained Messages (also includes clean sessions)
+        - PICS_BROKER_AUTH      // Authentication
         ;
         entities:
         - IUT
@@ -10,6 +15,7 @@ Package mts_mqtt_commons {
         - CLIENT_2
         - CLIENT_ID
         - MQTT_CONNECTION
+        - CLEAN_SESSION
         - TCP_CONNECTION
         - RETAIN_TOPIC
         ;
