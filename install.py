@@ -52,7 +52,7 @@ IOT_TESTWARE = {
 
 # version number of needed module
 GIT_PROTOCOL_VERSION = {
-    "coap":"8e47e5abb89b88fcbe0d42f6372d940e495fdb62",
+    "coap":"f51e6415de7582d01bf725efdc5161d3533babd1",
     "mqtt":"c22560bb461c21cb1835f19721e990eb57691bad",
     "opcua":"f13b46d1c9c8448fee8e034c086d6fd3caedbd3b"
 }
