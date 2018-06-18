@@ -61,7 +61,7 @@ GIT_PROTOCOL_VERSION = {
 PROTOCOL = IOT_TESTWARE[args.protocol]
 
 # default executable name
-NAME_EXE = "iottestware_"+PROTOCOL
+NAME_EXE = "iottestware."+args.protocol
 if args.executable_name!=None:
     NAME_EXE = args.executable_name[0]
 
