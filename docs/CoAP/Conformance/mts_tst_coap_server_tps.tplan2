@@ -424,7 +424,7 @@ Package mts_tst_coap_server_tps {
       TP Id TP_CoAP_MessageFormat_Header_TokenLength_002
       
       Test objective
-      "The IUT is responding on a invalid token length correctly."
+      "The IUT is not responding on a set token length that is not corresponding to the length of the actual token."
       
       Reference 
       "RFC7252#section-3", "https://tools.ietf.org/html/rfc7252#section-3",
@@ -466,15 +466,12 @@ Package mts_tst_coap_server_tps {
             the IUT entity receives a request message containing 
                version indicating value 1,
                msg_type indicating value 0, //Confirmable
-               token_length indicating value LENGTH_TOKEN_INVALID,
+               token_length indicating value LENGTH_TOKEN_RESERVED,
                code indicating value 0.01, //GET request
                msg_id corresponding to MSG_ID1;
          }
          then {
-         	/* at this point a message format error occur.
-         	 * TBC: how does it look like?
-         	 */
-            the client entity times_out //2sec ACK_TIMEOUT 
+            the client entity times_out //2sec ACK_TIMEOUT due to message format error
          }
       }       
    } 
