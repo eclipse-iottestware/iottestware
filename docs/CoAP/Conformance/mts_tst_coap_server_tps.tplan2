@@ -750,6 +750,37 @@ Package mts_tst_coap_server_tps {
       }
    }
    
+     Test Purpose {
+      TP Id TP_CoAP_MessageFormat_Payload_Marker_ZeroLengt_001
+      
+      /* Summary */
+      Test objective 
+      "A zero-length payload that follows the payload marker (0xFF) must be processed as message format error." 
+      
+      Reference
+      "RFC7252#section-3", "https://tools.ietf.org/html/rfc7252#section-3"
+      
+      PICS Selection PIC_Server
+
+     Expected behaviour
+      ensure that {
+         when {
+            the IUT entity receives a request message containing 
+               version indicating value 1,
+               msg_type indicating value 0, //Confirmable
+               token_length indicating value 0,
+               code indicating value 0.01, //GET request
+               msg_id corresponding to MSG_ID1,
+               payload_marker corresponding to PAYLOAD_MARKER,
+               payload corresponding to EMPTY_PAYLOAD;
+         }
+         then {
+            the client entity times_out //2sec ACK_TIMEOUT due to message format error
+
+         }
+      } 
+   }
+   
    Test Purpose {
       TP Id TP_CoAP_Server_Separate_Response_GET_001 /* Sect. 5.8.3*/
       
