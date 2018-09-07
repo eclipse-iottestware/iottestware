@@ -1,29 +1,89 @@
 Package mts_mqtt_commons {
-	Domain {
-		pics:
-		- PIC_Broker
-		;
-		entities:
-		- IUT
-		- CLIENT_ID
-		- CLIENT
-		- MQTT
-		- TCP_CONNECTION
-		;
-		events:
-		- receives
-		- sends
-		- closes
-		- having
-		;
-	}
-	
-	Data {
-		type UTF8String;
-		type UTF8String_invalid;
-		
-		UTF8String WILL_TOPIC;
-		UTF8String WILL_MESSAGE;
-		UTF8String MQTT_USER_NAME;
-	}
+    Domain {
+        pics:
+        - PICS_BROKER_BASIC     // Minimum each Broker should provide
+        - PICS_BROKER_QOS_1     // QoS 1 is required
+        - PICS_BROKER_QOS_2     // QoS 2 is required
+        - PICS_BROKER_LWT       // Last Will Testament
+        - PICS_BROKER_RTND      // Retained Messages (also includes clean sessions)
+        - PICS_BROKER_AUTH      // Authentication
+        ;
+        entities:
+        - IUT
+        - CLIENT
+        - CLIENT_1
+        - CLIENT_2
+        - CLIENT_ID
+        - MQTT_CONNECTION
+        - CLEAN_SESSION
+        - TCP_CONNECTION
+        - RETAIN_TOPIC
+        ;
+        events:
+        - receives
+        - sends
+        - closes
+        - having
+        - published
+        - subscribed
+        ;
+    }
+    
+    Data {
+        type QoS;
+        type UTF8String;
+        type UTF8String_invalid;
+        type Int16;
+        
+        // Quality of Services
+        QoS AT_MOST_ONCE;   // '00'B = 0
+        QoS AT_LEAST_ONCE;  // '01'B = 1
+        QoS EXACTLY_ONCE;   // '10'B = 2
+        QoS INVALID_QOS;    // '11'B = 3
+        
+        // ####################
+        // Test Suite constants
+        
+        // client identifiers
+        UTF8String VALID_CLIENT_ID;          // [1..23] encoded Bytes
+        UTF8String CLIENT_ID_24_BYTES;       // invalid: 24 encoded Bytes
+        UTF8String CLIENT_ID_ZERO_BYTES;     // invalid: 0 encoded Bytes 
+        UTF8String CLIENT_ID_NON_ALPHA_NUM;  // invalid: contains non alpha-numeric chars
+        UTF8String_invalid CLIENT_ID_D800;   // invalid: contains non-UTF8 chars: U+D800
+        UTF8String_invalid CLIENT_ID_0000;   // invalid: contains non-UTF8 chars: U+0000
+        
+        // packet identifier
+        Int16 PACKET_ID;    // valid packet id
+        Int16 PACKET_ID_1;    // valid packet id
+        Int16 PACKET_ID_2;    // required for TOs where packet IDs need to be distinguished
+        Int16 PACKET_ID_3;
+        Int16 PACKET_ID_ZERO; // invalid packet id = 0x00
+        
+        // invalid MQTT credentials
+        UTF8String MQTT_USER_NAME_INVALID;              // invalid user name from application perspective
+        UTF8String MQTT_PASSWORD_INVALID;               // invalid password from application perspective
+        UTF8String_invalid MQTT_USER_NAME_INVALID_UTF8; // contains non-UTF8 chars: U+D800 U+0000 U+D8FFF
+        
+        // topics and topic filters
+        UTF8String TOPIC_FILTER;                // valid topic filter should also match the PIXIT TOPIC
+        UTF8String TOPIC_FILTER_INVALID;        // invalid topic filter according to MQTT: e.g. abc/#/def
+        UTF8String_invalid WILL_TOPIC_D800;     // invalid: contains non-UTF8 chars: U+D800
+        UTF8String_invalid WILL_TOPIC_0000;     // invalid: contains non-UTF8 chars: U+0000
+        UTF8String_invalid TOPIC_FILTER_D800;   // invalid: contains non-UTF8 chars: U+D800
+        UTF8String_invalid TOPIC_FILTER_0000;   // invalid: contains non-UTF8 chars: U+0000
+        
+        // payloads and messages
+        UTF8String RETAINED_MESSAGE;
+        UTF8String WILL_MESSAGE;
+        UTF8String PAYLOAD;
+        UTF8String PROTOCOL_NAME;            // MUST be MQTT
+        UTF8String PROTOCOL_NAME_INVALID;    // MUST be != PROTOCOL_NAME
+        
+        // ######
+        // PIXITS
+        UTF8String TOPIC;
+        UTF8String CLIENT_ID;
+        UTF8String MQTT_USER_NAME;
+        UTF8String MQTT_PASSWORD;
+    }
 }
