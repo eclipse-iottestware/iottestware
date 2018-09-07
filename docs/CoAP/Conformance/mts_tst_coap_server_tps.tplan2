@@ -23,6 +23,7 @@ Package mts_tst_coap_server_tps {
       
       Reference 
       "RFC7252#section-3", "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.1", "https://tools.ietf.org/html/rfc7252#section-4.1",
       "RFC7252#section-4.2 (b)", "https://tools.ietf.org/html/rfc7252#section-4.2"
       
       PICS Selection PIC_Server
@@ -57,6 +58,7 @@ Package mts_tst_coap_server_tps {
       
       Reference 
       "RFC7252#section-3", "https://tools.ietf.org/html/rfc7252#section-3",
+      "RFC7252#section-4.1", "https://tools.ietf.org/html/rfc7252#section-4.1",
       "RFC7252#section-4.2 (b)", "https://tools.ietf.org/html/rfc7252#section-4.2"
       
       PICS Selection PIC_Server
@@ -474,7 +476,7 @@ Package mts_tst_coap_server_tps {
             the client entity times_out //2sec ACK_TIMEOUT due to message format error
          }
       }       
-   } 
+   }
    
    Test Purpose {
       TP Id TP_CoAP_MessageFormat_Header_Code_Content
