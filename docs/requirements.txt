@@ -1,2 +1,2 @@
-pip install sphinx_rtd_theme
-pip install sphinxcontrib-bibtex
+sphinx_rtd_theme>=0.4.2
+sphinxcontrib-bibtex==0.4.1
