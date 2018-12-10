@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Install with Eclipse IDE &mdash; Eclipse IoT-Testware  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Protocol Conformance Testing" href="conformance_testing.html" />
+    <link rel="prev" title="Install with Docker" href="install_docker.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Eclipse IoT-Testware
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart_guide.html">Quickstart Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="install.html">Installation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install_script.html">install.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install_docker.html">Install with Docker</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Install with Eclipse IDE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-quickstart">Installing Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-up">Set up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eclipse-ide">Eclipse IDE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="conformance_testing.html">Protocol Conformance Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mqtt_test_suite.html">MQTT Test Suite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coap_test_suite.html">CoAP Test Suite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opc_test_suite.html">OPC-UA Test Suite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fuzzing.html">Fuzzing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="std_oss.html">ETSI and Eclipse Foundation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About Eclipse IoT-Testware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Eclipse Public License - v 1.0</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Eclipse IoT-Testware</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content style-external-links">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="install.html">Installation</a> &raquo;</li>
+        
+      <li>Install with Eclipse IDE</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/install_ide.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
+      
+        <a href="conformance_testing.html" class="btn btn-neutral float-right" title="Protocol Conformance Testing" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="install_docker.html" class="btn btn-neutral" title="Install with Docker" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+  </div>
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="install-with-eclipse-ide">
+<h1>Install with Eclipse IDE<a class="headerlink" href="#install-with-eclipse-ide" title="Permalink to this headline">¶</a></h1>
+<p>These instructions will get you a clean IoT-Testware clone up and running on your local machine for development and testing purposes.</p>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Latest version of <strong>Java</strong></li>
+<li>Latest version of <strong>Python (v2 or v3)</strong></li>
+<li>Latest version of <strong>Eclipse Titan</strong>. For installation details please consult the official <a class="reference external" href="https://projects.eclipse.org/projects/tools.titan/downloads">Eclipse Titan</a></li>
+</ul>
+</div>
+<div class="section" id="installing-quickstart">
+<h2>Installing Quickstart<a class="headerlink" href="#installing-quickstart" title="Permalink to this headline">¶</a></h2>
+<p><em>Note:</em> Make sure all prerequisites are met. As we use Eclipse Titan (natively running under Linux) to compile and execute our test suite, the following instruction won’t cover other OS like Windows or MacOS. We recommend installing a Linux derivate in a virtual machine.</p>
+</div>
+<div class="section" id="set-up">
+<h2>Set up<a class="headerlink" href="#set-up" title="Permalink to this headline">¶</a></h2>
+<p>Firstly, you need to get all needed dependencies to run the test suites. To do so, simply run the python script <code class="docutils literal notranslate"><span class="pre">install.py</span></code> with your protocol of choice:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python install.py -p &lt;PROTOCOL&gt;
+</pre></div>
+</div>
+<p>This is the most minimalistic way of getting the dependencies. For a more complete explanation of the installation script please refer to the documentation.
+With Eclipse Titan you are free to choose to work either from the Command Line (CLI) or from Eclipse IDE. Go ahead and read further instructions of your preferred way of working.</p>
+</div>
+<div class="section" id="eclipse-ide">
+<h2>Eclipse IDE<a class="headerlink" href="#eclipse-ide" title="Permalink to this headline">¶</a></h2>
+<p>In every of our protocol repositories you find a <strong>iottestware.&lt;PROTOCOL&gt;.tpd</strong> file that you need to import.
+Open the Titan IDE in your desired workspace and use the import feature
+<code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">Import</span> <span class="pre">-&gt;</span> <span class="pre">TITAN</span> <span class="pre">-&gt;</span> <span class="pre">Project</span> <span class="pre">from</span> <span class="pre">.tpd</span> <span class="pre">file</span></code></p>
+<a class="reference internal image-reference" href="https://user-images.githubusercontent.com/2487708/33207536-56f3f9fc-d10e-11e7-9699-7298ee842a6b.png"><img alt="Import from .tpd file" class="align-center" src="https://user-images.githubusercontent.com/2487708/33207536-56f3f9fc-d10e-11e7-9699-7298ee842a6b.png" style="width: 500px;" /></a>
+<p>Klick Next and choose the <strong>iottestware.&lt;PROTOCOL&gt;.tpd</strong> from <strong>${PATH_BASE}</strong></p>
+<a class="reference internal image-reference" href="https://user-images.githubusercontent.com/2487708/33207748-26bf29e0-d10f-11e7-84f3-0b79bddb6fd5.png"><img alt="Create TITAN Project" class="align-center" src="https://user-images.githubusercontent.com/2487708/33207748-26bf29e0-d10f-11e7-84f3-0b79bddb6fd5.png" style="width: 500px;" /></a>
+<p>Klick Next and choose importation options.</p>
+<a class="reference internal image-reference" href="https://user-images.githubusercontent.com/2487708/33207865-aa9ef434-d10f-11e7-8b3e-08ac1d607a96.png"><img alt="Import options" class="align-center" src="https://user-images.githubusercontent.com/2487708/33207865-aa9ef434-d10f-11e7-8b3e-08ac1d607a96.png" style="width: 500px;" /></a>
+<p>Klick Finish and the IDE will import all the required Projects and open the properties for each. Make sure each project is configured to <strong>_generate Makefile for use with the function test runtime_</strong>.</p>
+<a class="reference internal image-reference" href="https://user-images.githubusercontent.com/2487708/33207905-d6019bcc-d10f-11e7-965b-23e0a73b3e3c.png"><img alt="Makefile for function test runtime" class="align-center" src="https://user-images.githubusercontent.com/2487708/33207905-d6019bcc-d10f-11e7-965b-23e0a73b3e3c.png" style="width: 500px;" /></a>
+<p>Right-click the <strong>iottestware.&lt;PROTOCOL&gt;</strong> project and select <strong>Build Project</strong>.</p>
+<a class="reference internal image-reference" href="https://user-images.githubusercontent.com/2487708/33208541-4135a706-d112-11e7-8cc1-a6ed63bc4f92.png"><img alt="Build project" class="align-center" src="https://user-images.githubusercontent.com/2487708/33208541-4135a706-d112-11e7-8cc1-a6ed63bc4f92.png" style="width: 500px;" /></a>
+<p><em>Note:</em> Make sure you are in the TITAN Editing Perspective, otherwise the Build Project might be not available.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="conformance_testing.html" class="btn btn-neutral float-right" title="Protocol Conformance Testing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="install_docker.html" class="btn btn-neutral" title="Install with Docker" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Eclipse IoT-Testware
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

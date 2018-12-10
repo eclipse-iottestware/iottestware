@@ -1,0 +1,17 @@
+function f_TC_MQTT_BROKER_CONNECT_001() runs on MQTT_Client
+{
+  var UTF8EncodedString v_clientId := f_getClientId();
+
+  var template MQTT_v3_1_1_Message v_conMsg := t_connect_flags(p_client_id := v_clientId, p_flags := '1111'B);
+  f_send(valueof(v_conMsg));
+
+  if(f_receiveNetworkClosedEvent())
+  {
+    setverdict(pass, "IUT closed the Network Connection correctly");
+  }
+  else
+  {
+    setverdict(fail, "IUT MUST close the Network Connection");
+    f_disconnectMqtt();
+  }
+}

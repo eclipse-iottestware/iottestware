@@ -1,0 +1,5 @@
+function f_TC_COAP_SERVER_001() runs on MTC_CT
+{
+  f_sendMessage(m_coapPingMessage);
+  f_receiveMessage(m_coapEmptyMessage);
+}
