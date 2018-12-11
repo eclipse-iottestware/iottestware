@@ -6,6 +6,12 @@ IoT-Testware Team
 =================
 `Who's involved <https://projects.eclipse.org/projects/technology.iottestware/who>`_
 
+Objective
+=========
+As stated in :cite:`maggi_fragility_nodate` communication protocols for the IoT are currently in a
+immature state and offer different kinds of attack vectors.
+We believe... *TODO!*
+
 Conformance Test Methodology and Framework
 ==========================================
 The IoT-Testware test suites will have a well-defined test suite structure (TSS) and a set of
