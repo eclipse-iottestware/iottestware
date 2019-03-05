@@ -1,36 +1,71 @@
-################
+================
 Quickstart Guide
-################
+================
 
 The easiest way to get started is to use Docker.
 The provided Dockerfile hides the complexity of TTCN-3 from the user. Therefore the user has more time to test his systems.
 
-Prerequisites
-=============
-* `Docker Container Platform <https://www.docker.com/>`_
+Preparations
+------------
+* Make sure you have a working `Docker <https://www.docker.com/>`_ installation
 
-Build Docker
-============
-First, we define some default values.
+* (optional) Set the following environment variables
 
-.. code-block:: bash
+  .. code-block:: bash
 
-  TESTWARE=iot_testware
+    TESTWARE=iot_testware
 
-1. Build the Docker image
 
-.. code-block:: bash
+Dashboard
+---------
+The easiest way to get started with the Eclipse IoT-Testware is to use the Dashboard Docker image.
 
-  docker build -t TESTWARE .
+1. Clone the IoT-Testware Dashboard project
 
-2. Start the Docker container
+  .. code-block:: bash
 
-.. code-block:: bash
+    git clone https://github.com/eclipse/iottestware.dashboard
+    cd iottestware.dashboard
 
-  docker run -ti TESTWARE /bin/bash
+2. Build the Docker image
+
+  .. code-block:: bash
+
+    docker build -t $TESTWARE .
+
+3. Start the Docker container
+
+  .. code-block:: bash
+
+    docker run --network=host -ti $TESTWARE
+
+4. Call the Dashboard in your browser from :code:`https://localhost:3001`
+
+CLI
+---
+If you are already familiar with concepts and the CLI of `Eclipse Titan <https://projects.eclipse.org/projects/tools.titan>`_ than this way is a light-weight solution to run the Testware without webserver and dashboard.
+
+1. Clone the main IoT-Testware project
+
+  .. code-block:: bash
+
+    git clone https://github.com/eclipse/iottestware
+    cd iottestware
+
+2. Build the Docker image
+
+  .. code-block:: bash
+
+    docker build -t TESTWARE .
+
+3. Start the Docker container
+
+  .. code-block:: bash
+
+    docker run -ti TESTWARE /bin/bash
 
 Run Test Campaigns
-==================
+##################
 The IoT-Testware Docker image ships currently two test suites for MQTT and CoAP. We will show you quickly how to configure and run the
 test suites.
 
@@ -46,26 +81,39 @@ Fortunately, we already have all the components in Docker. Let's see how we can 
 
 1. Change directory to the MQTT playground and make yourself familiar with the provided files.
 
-.. code-block:: bash
+  .. code-block:: bash
 
-  cd /home/titan/playground/mqtt; ls
+    cd /home/titan/playground/mqtt; ls
 
 2. (optional) By default, the public MQTT Broker ``iot.eclipse.org`` is set. If you want to change the configuration follow the instructions.
 
-.. code-block:: bash
+  .. code-block:: bash
 
-  vi ./BasicConfig.cfg
+    vi ./BasicConfig.cfg
 
 3. (optional) To change SUT you must change the ``hostName`` definition within the definition with the ``id := "mqtt_server"``
 
 4. Run the whole test campaign
 
-.. code-block:: bash
+  .. code-block:: bash
 
-  ttcn3_start iottestware.mqtt BasicConfig.cfg
+    ttcn3_start iottestware.mqtt BasicConfig.cfg
 
 4.1 Run a single test case
 
-.. code-block:: bash
+  .. code-block:: bash
 
-  ttcn3_start iottestware.mqtt BasicConfig.cfg MQTT_TestCases.TC_MQTT_BROKER_CONNECT_001
+    ttcn3_start iottestware.mqtt BasicConfig.cfg MQTT_TestCases.TC_MQTT_BROKER_CONNECT_001
+
+Manual Installation
+-------------------
+The IoT-Testware is composed of several test suites from different repositories with once again several dependencies to the
+Eclipse TITAN runtime. Hence, the installation process can become quite complex. Therefore we provide several 'flavours' of installation.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Installation options:
+
+   install_script.rst
+   install_ide.rst
+   install_docker.rst

@@ -12,21 +12,29 @@ MQTT Test Suite
 .. |ut| replace:: :abbr:`UT (Upper Tester)`
 .. |etsi| replace:: :abbr:`ETSI (European Telecommunications Standards Institute)`
 
+.. ###> Linked Conformance statements
+.. |mqtt-1.5.3-1| raw:: html
+
+   <a href="mqtt_spec.html#_[MQTT-1.5.3-1]">[MQTT-1.5.3-1]</a>
+
+.. |mqtt-1.5.3-2| raw:: html
+
+   <a href="mqtt_spec.html#_[MQTT-1.5.3-2]">[MQTT-1.5.3-2]</a>
+
 .. contents::
 
 -------------
 MQTT Protocol
 -------------
-
-The |mqtt| protocol...
-
-
-*TODO:* brief introduction to mqtt + references
+A very brief summary of |mqtt| from the `FAQ <http://mqtt.org/faq>`_
+  MQTT stands for MQ Telemetry Transport. It is a publish/subscribe, extremely simple and lightweight messaging protocol, designed for constrained devices and low-bandwidth, high-latency or unreliable networks.
 
 .. image:: images/mqtt_client_server_model.png
    :width: 300px
    :alt: MQTT Client-Server Model
    :align: center
+
+.. note:: We provide an :doc:`annotated version <./mqtt_spec>` of the official `MQTT specification <http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html>`_ which can be directly referenced (e.g. |mqtt-1.5.3-1| and |mqtt-1.5.3-2|)
 
 -------------------
 Test Configurations

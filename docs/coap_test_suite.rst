@@ -9,15 +9,33 @@ CoAP Test Suite
 .. |ts| replace:: :abbr:`TS (Test System)`
 .. |etsi| replace:: :abbr:`ETSI (European Telecommunications Standards Institute)`
 
+.. ###> Linked Conformance statements
+.. |coap-3.0-3| raw:: html
+
+   <a href="coap_rfc.html#[CoAP-3.0-3]">[CoAP-3.0-3]</a>
+
+.. |coap-3.0-4| raw:: html
+
+   <a href="coap_rfc.html#[CoAP-3.0-4]">[CoAP-3.0-4]</a>
+
 .. contents::
 
 -------------
 CoAP Protocol
 -------------
+|CoAP| is a specialized Internet Application Protocol for constrained devices, as defined in `RFC 7252 <https://tools.ietf.org/html/rfc7252>`_
+  The Constrained Application Protocol (CoAP) is a specialized web
+  transfer protocol for use with constrained nodes and constrained
+  (e.g., low-power, lossy) networks.  The nodes often have 8-bit
+  microcontrollers with small amounts of ROM and RAM, while constrained
+  networks such as IPv6 over Low-Power Wireless Personal Area Networks
+  (6LoWPANs) often have high packet error rates and a typical
+  throughput of 10s of kbit/s.  The protocol is designed for machine-
+  to-machine (M2M) applications such as smart energy and building
+  automation.
 
-The |coap| protocol...
+.. note:: We provide an :doc:`annotated version <./coap_rfc>` of the official `RFC <hhttps://tools.ietf.org/html/rfc7252>`_ which can be directly referenced (e.g. |coap-3.0-3| or |coap-3.0-4|)
 
-*TODO:* brief introduction to coap + references
 
 -------------------
 Test Configurations
