@@ -20,6 +20,8 @@ install.py
 
 This documentation helps you to understand and use the `install.py <https://github.com/eclipse/iottestware/blob/master/install.py>`_ script.
 
+.. contents::
+
 Prerequisites
 =============
 * Latest version of |python|

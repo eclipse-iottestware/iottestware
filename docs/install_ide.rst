@@ -4,6 +4,8 @@ Install with Eclipse IDE
 
 These instructions will get you a clean IoT-Testware clone up and running on your local machine for development and testing purposes.
 
+.. contents::
+
 Prerequisites
 =============
 * Latest version of **Java**

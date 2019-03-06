@@ -58,7 +58,6 @@ The second major architecture we will call *Client Testing* as now, the Client i
 Now we can start to extract different configurations from the test architectures.
 The image below depicts the step of retrieving test configurations from the architecture:
 
-
 .. image:: images/gateway_testarchitecture_MQTT_TS.png
    :width: 300px
    :alt: Testing MQTT Clients (Edge Devices)
@@ -70,57 +69,83 @@ of a MQTT Client.
 The MQTT test suite uses four test configurations in order to cover the different test scenarios. In these configurations, the
 tester simulates one or several MQTT clients or brokers implementing the MQTT protocol.
 
-MQTT Test Configuration 01
-==========================
-The MQTT Broker is the |iut| and the |ts| takes the role of a MQTT Client
-
-**ID**: MQTT_Conf_01
+================ ======================================================================================================================================
+**ID**:          MQTT_Conf_01
+---------------- --------------------------------------------------------------------------------------------------------------------------------------
+**Description**: The MQTT Broker is the |iut| and the |ts| takes the role of a MQTT Client
+================ ======================================================================================================================================
 
 .. image:: images/mqtt_conf_01.png
    :width: 350px
    :alt: MQTT Test Configuration 01
    :align: center
 
-MQTT Test Configuration 02
-==========================
-The MQTT Broker is the |iut| and the |ts| takes the role of multiple MQTT Clients.
 
-**ID**: MQTT_Conf_02
+================ ======================================================================================================================================
+**ID**:          MQTT_Conf_02
+---------------- --------------------------------------------------------------------------------------------------------------------------------------
+**Description**: The MQTT Broker is the |iut| and the |ts| takes the role of multiple MQTT Clients.
+================ ======================================================================================================================================
 
 .. image:: images/mqtt_conf_02.png
    :width: 350px
    :alt: MQTT Test Configuration 02
    :align: center
 
-MQTT Test Configuration 03
-==========================
-The MQTT Client is the |iut| and the |ts| takes the role of a MQTT Broker.
-For this configuration an optional |ut| might be required.
 
-**ID**: MQTT_Conf_03
+================ ======================================================================================================================================
+**ID**:          MQTT_Conf_03
+---------------- --------------------------------------------------------------------------------------------------------------------------------------
+**Description**: The MQTT Client is the |iut| and the |ts| takes the role of a MQTT Broker. For this configuration an optional |ut| might be required.
+================ ======================================================================================================================================
 
 .. image:: images/mqtt_conf_03.png
    :width: 350px
    :alt: MQTT Test Configuration 03
    :align: center
 
-MQTT Test Configuration 04
-==========================
-As well the MQTT Broker as the MQTT Client, each is a |iut| in this configuration.
-The part of the |ut| from the previous configuration is here replaced by a concrete application.
 
-**ID**: MQTT_Conf_04
+================ ======================================================================================================================================
+**ID**:          MQTT_Conf_04
+---------------- --------------------------------------------------------------------------------------------------------------------------------------
+**Description**: As well the MQTT Broker as the MQTT Client, each is a |iut| in this configuration.
+                 The part of the |ut| from the previous configuration is here replaced by a concrete application.
+================ ======================================================================================================================================
 
 .. image:: images/mqtt_conf_04.png
    :width: 350px
    :alt: MQTT Test Configuration 04
    :align: center
 
+
 -------------
 Test Purposes
 -------------
-
 *TODO:* link to .tplan2 from GitHub and .pdf from |etsi|
+
+.. code-block:: guess
+  :linenos:
+
+    Test Purpose {
+      TP Id TP_MQTT_Broker_CONNECT_001
+
+      Test objective
+      "The IUT MUST close the network connection if fixed header flags in CONNECT Control Packet are invalid"
+      Reference
+        "[MQTT-2.2.2-1], [MQTT-2.2.2-2], [MQTT-3.1.4-1], [MQTT-3.2.2-6]"
+      PICS Selection PICS_BROKER_BASIC
+
+      Expected behaviour
+      ensure that {
+        when {
+            the IUT entity receives a CONNECT message containing
+            header_flags indicating value '1111'B;
+        }
+        then {
+            the IUT entity closes the TCP_CONNECTION
+        }
+      }
+    }
 
 -----------
 Test System

@@ -39,7 +39,7 @@ The easiest way to get started with the Eclipse IoT-Testware is to use the Dashb
 
     docker run --network=host -ti $TESTWARE
 
-4. Call the Dashboard in your browser from :code:`https://localhost:3001`
+4. Call the Dashboard in your browser from ``https://localhost:3001``
 
 CLI
 ---
@@ -91,15 +91,38 @@ Fortunately, we already have all the components in Docker. Let's see how we can 
 
     vi ./BasicConfig.cfg
 
-3. (optional) To change SUT you must change the ``hostName`` definition within the definition with the ``id := "mqtt_server"``
+3. (optional) To configure the TS for your SUT you can change the ``hostName``, ``portNumber`` and ``credentials`` definitions.
 
-4. Run the whole test campaign
+  .. code-block:: guess
+    :emphasize-lines: 5,6,13-16
+
+    tsp_addresses :=
+    {
+      {
+        id := "mqtt_server",
+        hostName := "iot.eclipse.org",
+        portNumber := 1883
+      }, {
+        id := "mqtt_client",
+        hostName := "0.0.0.0",
+        portNumber := 45679,
+        credentials :=
+        {
+          clientId := "CLIENT_ID",
+          username := "USER_NAME",
+          password := "PASSWORD",
+          topicName := "your/mqtt/topic/name"
+        }
+      }
+    }
+
+4.1 Run the whole test campaign given in ``BasicConfig.cfg``
 
   .. code-block:: bash
 
     ttcn3_start iottestware.mqtt BasicConfig.cfg
 
-4.1 Run a single test case
+4.2 Run a single test case ``TC_MQTT_BROKER_CONNECT_001`` from ``MQTT_TestCases``
 
   .. code-block:: bash
 

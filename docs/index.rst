@@ -16,6 +16,7 @@ We would like to guide you to start with the test suites.
    quickstart_guide.rst
    conformance_testing.rst
    std_oss.rst
+   dashboard.rst
    mqtt_test_suite.rst
    coap_test_suite.rst
    opc_test_suite.rst
