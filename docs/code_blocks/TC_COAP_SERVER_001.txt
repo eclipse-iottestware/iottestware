@@ -1,0 +1,6 @@
+testcase TC_COAP_SERVER_001() runs on MTC_CT
+{
+  map(self:p, system:p);
+  f_TC_COAP_SERVER_001();
+  unmap(self:p, system:p);
+}

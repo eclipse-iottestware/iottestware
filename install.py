@@ -50,22 +50,9 @@ IOT_TESTWARE = {
     "opcua":"OPC_UA"
 }
 
-# modules needed by every protocol
-IOT_TESTWARE_MODULES = {
-    "coap":["src/negative_testing/CoAP_EncDec.cc",
-        "src/negative_testing/CoAP_Types.ttcn"],
-    "mqtt":["src/negative_testing/MQTT_v3_1_1_Types.ttcn",
-        "src/negative_testing/MQTT_v3_1_1_IPL4SizeFunction.ttcn",
-        "src/negative_testing/MQTT_v3_1_1_EncDec.cc",
-        "src/negative_testing/MQTT_v3_1_1_Size.cc"],
-    "opcua": ["src/OpcUa_Common.ttcn",
-        "src/OpcUa_Templates_Binary.ttcn",
-        "src/OpcUa_Types_Binary.ttcn"]
-}
-
 # version number of needed module
 GIT_PROTOCOL_VERSION = {
-    "coap":"8e47e5abb89b88fcbe0d42f6372d940e495fdb62",
+    "coap":"f51e6415de7582d01bf725efdc5161d3533babd1",
     "mqtt":"c22560bb461c21cb1835f19721e990eb57691bad",
     "opcua":"f13b46d1c9c8448fee8e034c086d6fd3caedbd3b"
 }
@@ -74,7 +61,7 @@ GIT_PROTOCOL_VERSION = {
 PROTOCOL = IOT_TESTWARE[args.protocol]
 
 # default executable name
-NAME_EXE = "iottestware_"+PROTOCOL
+NAME_EXE = "iottestware."+args.protocol
 if args.executable_name!=None:
     NAME_EXE = args.executable_name[0]
 
@@ -147,13 +134,14 @@ def install(protocol):
 
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_SOCKET_API_VERSION]).communicate()[0]
     else:
         subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_SOCKET_API, PATH_SOCKET_API]).communicate()[0]
 
-        # go to PATH_SOCKET_API and checkout the required version
+        # go to PATH_SOCKET_API
         os.chdir(PATH_SOCKET_API)
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_SOCKET_API_VERSION]).communicate()[0]
+
+    # checkout the required version SocketAPI
+    subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_SOCKET_API_VERSION]).communicate()[0]
 
     # back to cwd
     os.chdir(project_dir)
@@ -164,13 +152,14 @@ def install(protocol):
 
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_IPL4_VERSION]).communicate()[0]
     else:
         subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_IPL4, PATH_IPL4]).communicate()[0]
 
-        # go to PATH_IPL4 and checkout the required version
+        # go to PATH_IPL4
         os.chdir(PATH_IPL4)
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_IPL4_VERSION]).communicate()[0]
+
+    # checkout the required version IPL4asp
+    subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_IPL4_VERSION]).communicate()[0]
 
     # back to cwd
     os.chdir(project_dir)
@@ -186,13 +175,14 @@ def install(protocol):
 
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_COMMON_VERSION]).communicate()[0]
     else:
         subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_COMMON, PATH_COMMON]).communicate()[0]
 
-        # go to PATH_COMMON and checkout the required version
+        # go to PATH_COMMON
         os.chdir(PATH_COMMON)
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_COMMON_VERSION]).communicate()[0]
+
+    # checkout the required version of COMMON
+    subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_COMMON_VERSION]).communicate()[0]
 
     # back to cwd
     os.chdir(project_dir)
@@ -203,13 +193,14 @@ def install(protocol):
 
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_PROTOCOL_VERSION[args.protocol]]).communicate()[0]
     else:
         subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_PROTOCOL, PATH_PROTOCOL]).communicate()[0]
 
-        # go to PATH_PROTOCOL and checkout the required version
+        # go to PATH_PROTOCOL
         os.chdir(PATH_PROTOCOL)
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_PROTOCOL_VERSION[args.protocol]]).communicate()[0]
+
+    # checkout required version of Test Suite
+    subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_PROTOCOL_VERSION[args.protocol]]).communicate()[0]
 
     # back to cwd
     os.chdir(project_dir)
@@ -225,13 +216,14 @@ def install(protocol):
 
         # ensure latest version
         subprocess.Popen(['git', 'remote', 'update']).communicate()[0]
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_TCC_VERSION]).communicate()[0]
     else:
         subprocess.Popen(['git', 'clone', GIT_FLAG, GIT_TCC, PATH_TCC]).communicate()[0]
 
-        # go to PATH_TCC and checkout the required version
+        # go to PATH_TCC
         os.chdir(PATH_TCC)
-        subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_TCC_VERSION]).communicate()[0]
+
+    # checkout required version of TCC
+    subprocess.Popen(['git', 'checkout', GIT_QUIET, GIT_TCC_VERSION]).communicate()[0]
 
     # back to cwd
     os.chdir(project_dir)
@@ -252,58 +244,29 @@ def install(protocol):
             os.remove(file)
     else:
         os.mkdir(bin_folder)
-    os.chdir(bin_folder)
+
     print(" Bin directory clean!")
 
-    # Create symlinks inside the bin folder to create a Makefile in the next step
-    os.symlink(PATH_COMMON + "/src/General_Types.ttcn", "General_Types.ttcn")
 
-    # link to IPL4asp TestPort
-    os.symlink(PATH_IPL4 + "/src/IPL4asp_Types.ttcn", "IPL4asp_Types.ttcn")
-    os.symlink(PATH_IPL4 + "/src/IPL4asp_Functions.ttcn", "IPL4asp_Functions.ttcn")
-    os.symlink(PATH_IPL4 + "/src/IPL4asp_PortType.ttcn", "PortType.ttcn")
-    os.symlink(PATH_IPL4 + "/src/IPL4asp_PT.cc", "IPL4asp_PT.cc")
-    os.symlink(PATH_IPL4 + "/src/IPL4asp_PT.hh", "IPL4asp_PT.hh")
-    os.symlink(PATH_IPL4 + "/src/IPL4asp_protocol_L234.hh", "IPL4asp_protocol_L234.hh")
-    os.symlink(PATH_IPL4 + "/src/IPL4asp_discovery.cc", "IPL4asp_discovery.cc")
-
-    # link to Socket_API_CNL113686 TestPort
-    os.symlink(PATH_SOCKET_API + "/src/Socket_API_Definitions.ttcn", "Socket_API_Definitions.ttcn")
-
-    # link to TTC Library
-    os.symlink(PATH_TCC + "/src/TCCInterface_Functions.ttcn", "TCCInterface_Functions.ttcn")
-    os.symlink(PATH_TCC + "/src/TCCInterface_ip.h", "TCCInterface_ip.h")
-    os.symlink(PATH_TCC + "/src/TCCInterface.cc", "TCCInterface.cc")
-    os.symlink(PATH_TCC + "/src/TCCConversion_Functions.ttcn", "TCCConversion_Functions.ttcn")
-    os.symlink(PATH_TCC + "/src/TCCConversion.cc", "TCCConversion.cc")
-
-    # link to protocol files
-    for file in IOT_TESTWARE_MODULES[args.protocol]:
-        os.symlink(PATH_PROTOCOL+file, os.path.basename(file))
-
-
-    # link to IoT-Testware modules
-    src_dir = glob.glob(PATH_TW+"/src/*")
-    for file in src_dir:
-        os.symlink(file, os.path.basename(file))
-
-    print(" Symlinks created successfully!")
-    print("Finished! Everything set up.")
-
-
-def build():
+def build(protocol):
     bin_folder = PATH_TW+"bin"
-    # check if needed files are linked to bin folder
+    tpd_file = PATH_TW+"iottestware."+protocol+".tpd"
+
+    # create bin folder if does not exist
     if not os.path.isdir(bin_folder):
-        print("bin folder does not exist. Please run the script again with '-b' or '--build' flag before.")
-        parser.print_help()
-        return
+        os.mkdir(bin_folder)
 
-    os.chdir(bin_folder)
-
-    # Create a Makefile
-    os.system("ttcn3_makefilegen -f -g -m -e "+NAME_EXE+" *.ttcn *.hh *.cc")
+    # Create a Makefile with Titan's ttcn3_makefilegen
+    # -f:           force overwriting of the output Makefile
+    # -g:           generate Makefile for use with GNU make
+    # -m:           always use makedepend for dependencies
+    # -e ets_name:  name of the target executable
+    # -t tpd:       read project descriptor file
+    os.system("ttcn3_makefilegen -f -g -m -t "+tpd_file+" -e "+NAME_EXE+" "+PATH_TW+"src/*.ttcn")
     print("Makefile generated!")
+
+    # move to bin folder
+    os.chdir(bin_folder)
 
     # compile and build
     os.system("make compile")
@@ -317,7 +280,7 @@ def Main():
     install(args.protocol)
     if args.build:
         print("Building the project ...")
-        build()
+        build(args.protocol)
 
 if __name__ == '__main__':
     Main()
