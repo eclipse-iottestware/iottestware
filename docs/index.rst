@@ -14,6 +14,7 @@ We would like to guide you to start with the test suites.
    :caption: Contents
 
    quickstart_guide.rst
+   installation.rst
    conformance_testing.rst
    std_oss.rst
    dashboard.rst
