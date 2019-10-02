@@ -22,6 +22,7 @@ We would like to guide you to start with the test suites.
    coap_test_suite.rst
    opc_test_suite.rst
    fuzzing.rst
+   smart_fuzzer.rst
    about.rst
    glossary.rst
    references.rst
