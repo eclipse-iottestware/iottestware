@@ -10,5 +10,7 @@ TTCN-3 sources and related auxiliary files are located in repositories of the su
 * [iottestware.mqtt](https://github.com/eclipse/iottestware.mqtt)
 * [iottestware.opcua](https://github.com/eclipse/iottestware.opcua)
 * [iottestware.fuzzing](https://github.com/eclipse/iottestware.fuzzing)
+* [iottestware.dashboard](https://github.com/eclipse/iottestware.dashboard)
+* [iottestware.performance](https://github.com/eclipse/iottestware.performance)
 
 You may download and use the free [TDL tools from ETSI](https://tdl.etsi.org/index.php/open-source) to display TDL-TO files with syntax highlighting.
