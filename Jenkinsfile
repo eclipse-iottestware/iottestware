@@ -4,8 +4,15 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh 'ttcn3_start /home/titan/playground/mqtt/iottestware.mqtt /home/titan/playground/mqtt/BasicConfig.cfg'
+        sh 'mkdir build'
+        sh 'cp -R /home/titan/playground/mqtt build'
       }
+    }
+  }
+  post {
+    always {
+      echo "Starting to archive ..."
+      archiveArtifacts artifacts: 'build/**/*.*', fingerprint: true
     }
   }
 }
