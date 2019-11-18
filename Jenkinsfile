@@ -4,8 +4,9 @@ pipeline {
   stages {
     stage('build') {
       steps {
+        sh 'rm -rf build'
         sh 'mkdir build'
-        sh 'cp -R /home/titan/playground/mqtt build'
+        sh 'cp -R /home/titan/playground/* build'
       }
     }
   }
