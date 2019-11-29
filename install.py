@@ -262,7 +262,7 @@ def build(protocol):
     # -m:           always use makedepend for dependencies
     # -e ets_name:  name of the target executable
     # -t tpd:       read project descriptor file
-    os.system("ttcn3_makefilegen -f -g -m -t "+tpd_file+" -e "+NAME_EXE+" "+PATH_TW+"src/*.ttcn")
+    os.system("ttcn3_makefilegen -f -g -m -t "+tpd_file+" -e "+NAME_EXE)
     print("Makefile generated!")
 
     # move to bin folder
