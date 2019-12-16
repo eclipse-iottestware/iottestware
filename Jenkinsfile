@@ -19,7 +19,7 @@ pipeline {
 	}
 	dir('docs')
 	{
-		sh 'wget -O iottestware-v${RELEASE}.pdf readthedocs.org/projects/iottestware/downloads/pdf/latest'
+		sh 'curl readthedocs.org/projects/iottestware/downloads/pdf/latest -o iottestware-v${RELEASE}.pdf'
 	}
 	sh 'cp -R performance fuzzing docs release-${RELEASE}/iottestware'
       }
