@@ -1,28 +1,34 @@
 pipeline {
   //build the local Dockerfile
   agent { dockerfile true }
+  environment {
+  	RELEASE='0.1.0'
+  }
   stages {
     stage('build') {
       steps {
-        sh 'rm -rf build'
-        sh 'mkdir build'
-        sh 'cp -R /home/titan/playground/* build'
-        dir('iottestware.performance')
+        sh 'mkdir -p release-${RELEASE}/iottestware'
+        sh 'cp -R /home/titan/playground/* release-${RELEASE}/iottestware'
+        dir('performance')
         {
-          git 'https://github.com/eclipse/iottestware.performance'
+        	git 'https://github.com/eclipse/iottestware.performance'
         } 
-				dir('iottestware.fuzzing')
-				{
-				  git 'https://github.com/eclipse/iottestware.fuzzing'
-				}
-				sh 'cp -R iottestware.performance iottestware.fuzzing build'
+	dir('fuzzing')
+	{
+		git 'https://github.com/eclipse/iottestware.fuzzing'
+	}
+	dir('docs')
+	{
+		sh 'wget -O iottestware-v${RELEASE}.pdf readthedocs.org/projects/iottestware/downloads/pdf/latest'
+	}
+	sh 'cp -R performance fuzzing docs release-${RELEASE}/iottestware'
       }
     }
   }
   post {
     always {
       echo "Starting to archive ..."
-      archiveArtifacts artifacts: 'build/**/*', fingerprint: true
+      archiveArtifacts artifacts: 'release-0.1.0/**/*', fingerprint: true
     }
   }
 }
