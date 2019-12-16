@@ -29,6 +29,7 @@ pipeline {
     always {
       echo "Starting to archive ..."
       archiveArtifacts artifacts: 'release-0.1.0/**/*', fingerprint: true
+      cleanWs()
     }
   }
 }
