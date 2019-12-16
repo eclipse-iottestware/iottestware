@@ -23,5 +23,5 @@ WORKDIR /home/titan/playground
 
 RUN mv /home/titan/iottestware/IoT-Testware/iottestware.mqtt/bin/iottestware.mqtt /home/titan/playground/mqtt \
 		&& cp /home/titan/iottestware/IoT-Testware/iottestware.mqtt/cfg/* /home/titan/playground/mqtt \
-		#&& mv /home/titan/iottestware/IoT-Testware/iottestware.coap/bin/iottestware.coap /home/titan/playground/coap \
-		#&& cp /home/titan/iottestware/IoT-Testware/iottestware.coap/cfg/* /home/titan/playground/coap \
+		&& mv /home/titan/iottestware/IoT-Testware/iottestware.coap/bin/iottestware.coap /home/titan/playground/coap \
+		&& cp /home/titan/iottestware/IoT-Testware/iottestware.coap/cfg/* /home/titan/playground/coap \
