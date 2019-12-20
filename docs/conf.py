@@ -20,8 +20,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Eclipse IoT-Testware'
-copyright = '2018, Eclipse IoT-Testware'
-author = 'Eclipse IoT-Testware Team'
+copyright = '2018, Eclipse IoT-Testware Contributors'
+author = 'Eclipse IoT-Testware Contributors'
 
 # The short X.Y version
 version = ''
