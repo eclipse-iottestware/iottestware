@@ -99,7 +99,7 @@ GIT_IPL4 = 'https://github.com/eclipse/titan.TestPorts.IPL4asp.git'
 GIT_IPL4_VERSION = '8045145aa32cd4452f1acc30ade0a6ea79033bcc'
 GIT_COMMON = 'https://github.com/eclipse/titan.ProtocolModules.COMMON.git'
 GIT_COMMON_VERSION = '9a52b8dc609e18c193fbe4619aeb52d6c94e7922'
-GIT_PROTOCOL = 'git://git.eclipse.org/gitroot/titan/titan.ProtocolModules.'+PROTOCOL+'.git'
+GIT_PROTOCOL = 'https://gitlab.eclipse.org/eclipse/titan/titan.ProtocolModules.'+PROTOCOL+'.git'
 GIT_TCC = 'https://github.com/eclipse/titan.Libraries.TCCUsefulFunctions.git'
 GIT_TCC_VERSION = '27f76bb794af89f5ed9088317fc2e82247667f74'
 
